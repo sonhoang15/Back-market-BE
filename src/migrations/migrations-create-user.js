@@ -20,9 +20,6 @@ module.exports = {
       address: {
         type: Sequelize.STRING
       },
-      sex: {
-        type: Sequelize.STRING
-      },
       phone: {
         type: Sequelize.STRING
       },

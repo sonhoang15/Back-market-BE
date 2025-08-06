@@ -19,11 +19,15 @@ module.exports = (sequelize, DataTypes) => {
             Product_Variants.belongsTo(models.Size, { foreignKey: 'size_id' });
 
             // Mỗi variant có thể xuất hiện trong nhiều order items
-            Product_Variants.hasMany(models.OrderItem, { foreignKey: 'product_variant_id' });
+            Product_Variants.hasMany(models.Order_Items, { foreignKey: 'product_variant_id' });
         }
     };
     Product_Variants.init({
-        id: DataTypes.STRING,
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
         product_id: DataTypes.STRING,
         color_id: DataTypes.STRING,
         size_id: DataTypes.STRING,

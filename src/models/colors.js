@@ -16,7 +16,11 @@ module.exports = (sequelize, DataTypes) => {
         }
     };
     Color.init({
-        id: DataTypes.STRING,
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
         name: DataTypes.STRING,
     }, {
         sequelize,

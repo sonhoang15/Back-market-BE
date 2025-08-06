@@ -1,8 +1,7 @@
 import express from "express";
 import configViewEngine from "./config/viewEngine";
-// import initWebRoutes from "./routes/web";
 import bodyParser from "body-parser";
-// import initApiRoutes from "./routes/api";
+import initApiRoutes from "./routes/api";
 import configcors from "./config/cors";
 import cookieParser from 'cookie-parser'
 import connection from "./config/connectDB"
@@ -23,8 +22,8 @@ app.use(cookieParser())
 
 connection();
 
-// initWebRoutes(app);
-// initApiRoutes(app);
+
+initApiRoutes(app);
 
 
 app.use((req, res) => {

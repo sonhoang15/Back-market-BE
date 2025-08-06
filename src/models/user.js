@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.belongsTo(models.Group, { foreignKey: 'groupId' });
-      User.belongsToMany(models.Project, { through: 'Project_User' });
+      User.hasMany(models.Order, { foreignKey: 'user_Id' });
     }
   };
   User.init({
@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     username: DataTypes.STRING,
     address: DataTypes.STRING,
-    sex: DataTypes.STRING,
     phone: DataTypes.STRING,
     groupId: DataTypes.INTEGER
   }, {
