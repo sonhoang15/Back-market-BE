@@ -6,7 +6,8 @@ const getAllUsers = async () => {
 
     try {
         let users = await db.User.findAll({
-            attributes: ["id", "email", "username", "phone", "sex"],
+            attributes: ["id", "email", "username", "phone", "address"],
+
             include: [
                 {
                     model: db.Group,

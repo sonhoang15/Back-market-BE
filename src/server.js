@@ -2,6 +2,7 @@ import express from "express";
 import configViewEngine from "./config/viewEngine";
 import bodyParser from "body-parser";
 import initApiRoutes from "./routes/api";
+import initWebRoutes from "./routes/web";
 import configcors from "./config/cors";
 import cookieParser from 'cookie-parser'
 import connection from "./config/connectDB"
@@ -20,9 +21,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cookieParser())
 
-connection();
 
-
+initWebRoutes(app);
 initApiRoutes(app);
 
 
