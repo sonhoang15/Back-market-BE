@@ -102,7 +102,7 @@ const getRolesByGroup = async (req, res) => {
 }
 const assignToGroup = async (req, res) => {
     try {
-        let data = await roleApiService.assignToGroup(req.body.data);
+        let data = await roleApiService.assignToGroup(req.body);
         return res.status(200).json({
             EM: data.EM,
             EC: data.EC,

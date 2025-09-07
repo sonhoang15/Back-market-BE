@@ -1,7 +1,7 @@
 require("dotenv").config();
 import jwt from 'jsonwebtoken';
 
-const nonSecurePaths = ['/', '/api/v1/login', '/api/v1/register', '/api/v1/logout'];
+const nonSecurePaths = ['/api/v1/home', '/api/v1/login', '/api/v1/register', '/api/v1/logout', '/api/v1/auth'];
 
 const createJWT = (payload) => {
     let key = process.env.JWT_KEY
@@ -10,7 +10,6 @@ const createJWT = (payload) => {
         token = jwt.sign(payload, key, {
             expiresIn: process.env.JWT_EXPIRES_IN
         })
-        console.log("JWT_KEY (sign):", process.env.JWT_KEY);   // chỗ createJWT
     } catch (error) {
         console.log(error)
     }
@@ -23,7 +22,6 @@ const verifyToken = (token) => {
     let decoded = null
     try {
         decoded = jwt.verify(token, key)
-        console.log("JWT_KEY (verify):", process.env.JWT_KEY); // chỗ verifyToken
     } catch (error) {
         console.log(error);
     }

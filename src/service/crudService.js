@@ -56,7 +56,7 @@ const registerNewUser = async (userData) => {
             phone: userData.phone,
             address: userData.address,
             username: userData.username,
-            groupId: 4
+            groupId: 2
         });
         return {
             EM: "User created successfully",

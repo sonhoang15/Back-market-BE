@@ -50,7 +50,7 @@ const getAllUsersWithPagination = async (page, limit) => {
         const { count, rows } = await db.User.findAndCountAll({
             offset: offset,
             limit: limit,
-            attributes: ["id", "email", "username", "phone", "sex", "address"],
+            attributes: ["id", "email", "username", "phone", "address"],
             include: [
                 {
                     model: db.Group,
@@ -134,7 +134,6 @@ const updateUser = async (data) => {
             await user.update({
                 username: data.username,
                 address: data.address,
-                sex: data.sex,
                 groupId: data.groupId
             })
             return {

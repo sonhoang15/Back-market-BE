@@ -185,6 +185,7 @@ const assignToGroup = async (data) => {
             DT: []
         };
     } catch (error) {
+        console.log(data);
         console.error("Error fetching roles by group:", error);
         return {
             EM: "Error assign role to group ",
