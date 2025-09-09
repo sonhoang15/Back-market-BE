@@ -31,6 +31,8 @@ const initApiRoutes = (app) => {
 
 
     router.get("/group/read", groupController.read);
+    router.post("/group/create", groupController.create);
+    router.delete("/group/delete", groupController.deleteGroup);
 
     return app.use("/api/v1", router)
 
