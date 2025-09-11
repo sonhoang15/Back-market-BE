@@ -34,6 +34,9 @@ const initApiRoutes = (app) => {
     router.post("/group/create", groupController.create);
     router.delete("/group/delete", groupController.deleteGroup);
 
+
+    
+
     return app.use("/api/v1", router)
 
 }
