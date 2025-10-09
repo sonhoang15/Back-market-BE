@@ -1,30 +1,48 @@
 'use strict';
-const {
-    Model
-} = require('sequelize');
-module.exports = (sequelize, DataTypes) => {
-    class Categorie extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
+import { Model } from 'sequelize';
+
+export default (sequelize, DataTypes) => {
+    class Category extends Model {
         static associate(models) {
-            // define association here
-            Categorie.hasMany(models.Product, { foreignKey: 'category_id' });
+            // Một category có nhiều product
+            Category.hasMany(models.Product, {
+                foreignKey: 'category_id',
+                as: 'products',
+            });
         }
-    };
-    Categorie.init({
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true
+    }
+
+    Category.init(
+        {
+            id: {
+                type: DataTypes.INTEGER,
+                primaryKey: true,
+                autoIncrement: true,
+            },
+            name: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            description: {
+                type: DataTypes.TEXT,
+                allowNull: true,
+            },
+
+            // Phân biệt nguồn dữ liệu (crawl, thêm tay, import)
+            source_type: {
+                type: DataTypes.ENUM('manual', 'crawler', 'import'),
+                allowNull: false,
+                defaultValue: 'manual',
+            },
         },
-        name: DataTypes.STRING,
-    }, {
-        sequelize,
-        modelName: 'Categorie',
-        tableName: 'Categorie',
-    });
-    return Categorie;
+        {
+            sequelize,
+            modelName: 'Category',
+            tableName: 'Categories',
+            timestamps: true, // createdAt + updatedAt tự động
+            underscored: true, // Dùng snake_case cho cột trong DB (nếu bạn thích đồng nhất)
+        }
+    );
+
+    return Category;
 };

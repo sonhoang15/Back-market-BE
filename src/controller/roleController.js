@@ -1,4 +1,7 @@
-import roleApiService from '../service/roleApiService.js'
+const roleApiServiceModule = await import('../service/roleApiService.js');
+const roleApiService = roleApiServiceModule.default;
+
+
 
 const read = async (req, res) => {
 
@@ -118,6 +121,6 @@ const assignToGroup = async (req, res) => {
     }
 }
 
-module.exports = {
+export default {
     read, create, update, deleteRoles, getRolesByGroup, assignToGroup
 }

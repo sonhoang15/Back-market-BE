@@ -1,4 +1,4 @@
-import db from "../models"
+import db from "../models/index.js"
 
 const getGroup = async () => {
     try {
@@ -81,7 +81,7 @@ const deleteGroup = async (id) => {
 
     }
 };
-module.exports = {
+export default {
     getGroup,
     createNewGroup,
     deleteGroup

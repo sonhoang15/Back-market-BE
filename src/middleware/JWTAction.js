@@ -1,4 +1,4 @@
-require("dotenv").config();
+import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 
 const nonSecurePaths = ['/api/v1/home', '/api/v1/login', '/api/v1/register', '/api/v1/logout', '/api/v1/auth'];
@@ -104,6 +104,4 @@ const checkUserPermission = (req, res, next) => {
         })
     }
 }
-module.exports = {
-    createJWT, verifyToken, checkUserJWT, checkUserPermission
-}
+export default { createJWT, verifyToken, checkUserJWT, checkUserPermission };

@@ -1,4 +1,5 @@
-import groupService from '../service/groupService.js';
+const groupServiceModule = await import('../service/groupService.js');
+const groupService = groupServiceModule.default;
 
 const read = async (req, res) => {
     try {
@@ -52,7 +53,7 @@ const deleteGroup = async (req, res) => {
     }
 };
 
-module.exports = {
+export default {
     read,
     create,
     deleteGroup

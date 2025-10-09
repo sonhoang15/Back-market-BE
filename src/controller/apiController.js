@@ -1,4 +1,5 @@
-import crudService from "../service/crudService";
+const crudServiceModule = await import("../service/crudService.js");
+const crudService = crudServiceModule.default;
 
 const handleRegister = async (req, res) => {
     try {
@@ -73,6 +74,6 @@ const handleLogout = (req, res) => {
         });
     }
 }
-module.exports = {
+export default {
     handleRegister, handleLogin, handleLogout
 }

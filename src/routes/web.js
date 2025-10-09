@@ -1,5 +1,6 @@
 import express from "express";
-import homeController from "../controller/homeController";
+const homeControllerModule = await import("../controller/homeController.js");
+const homeController = homeControllerModule.default;
 const router = express.Router();
 
 const initWebRoutes = (app) => {

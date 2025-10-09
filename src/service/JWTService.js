@@ -1,5 +1,5 @@
 
-import db from "../models"
+import db from "../models/index.js"
 
 const getGroupWithRoles = async (user) => {
     let roles = await db.Group.findOne({
@@ -13,6 +13,6 @@ const getGroupWithRoles = async (user) => {
     })
     return roles ? roles : {};
 }
-module.exports = {
+export default {
     getGroupWithRoles
 }

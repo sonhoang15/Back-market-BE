@@ -1,6 +1,7 @@
-import { raw } from "body-parser";
-import db from "../models";
-import { checkEmail, checkPhone, hashPassword } from "./crudService"
+
+import db from "../models/index.js";
+const crudServiceModule = await import("./crudService.js");
+const { checkEmail, checkPhone, hashPassword } = crudServiceModule.default;
 
 const getAllUsers = async () => {
 
@@ -192,7 +193,7 @@ const deleteUser = async (userId) => {
 
 }
 
-module.exports = {
+export default {
     getAllUsers,
     createUser,
     updateUser,

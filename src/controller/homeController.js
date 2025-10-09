@@ -1,4 +1,5 @@
-import userService from "../service/userService"
+const userServiceModule = await import("../service/userService.js");
+const userService = userServiceModule.default;
 
 
 // Create the connection to database
@@ -43,6 +44,6 @@ const fillUpdateUser = async (req, res) => {
     await userService.updateUserInfor(email, username, id);
     return res.redirect("/user")
 }
-module.exports = {
+export default {
     handleHome, handleUser, handleCreateNewUser, handleDeleteUser, handleUpdateUser, fillUpdateUser
 }

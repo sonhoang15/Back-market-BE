@@ -1,4 +1,5 @@
-import userApiService from '../service/userApiService.js'
+const userApiServiceModule = await import('../service/userApiService.js');
+const userApiService = userApiServiceModule.default;
 
 
 const read = async (req, res) => {
@@ -96,6 +97,6 @@ const getUserAccount = async (req, res) => {
         }
     });
 }
-module.exports = {
+export default {
     read, create, update, DeleteUser, getUserAccount
 }

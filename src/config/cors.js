@@ -1,4 +1,4 @@
-require("dotenv").config();
+import 'dotenv/config';
 
 const configcors = (app) => {
     app.use((req, res, next) => {

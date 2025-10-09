@@ -1,12 +1,23 @@
 import express from "express";
-import apiController from "../controller/apiController";
-import userController from "../controller/userController";
-import groupController from "../controller/groupController";
-import { checkUserJWT, checkUserPermission } from "../middleware/JWTAction"
-import roleController from "../controller/roleController"
 const router = express.Router();
 
+const JWTActionModule = await import("../middleware/JWTAction.js");
+const { checkUserJWT, checkUserPermission } = JWTActionModule.default;
 
+const apiControllerModule = await import("../controller/apiController.js");
+const apiController = apiControllerModule.default;
+
+const userControllerModule = await import("../controller/userController.js");
+const userController = userControllerModule.default;
+
+const groupControllerModule = await import("../controller/groupController.js");
+const groupController = groupControllerModule.default;
+
+const categoryControllerModule = await import("../controller/categoryController.js");
+const categoryController = categoryControllerModule.default;
+
+const roleControllerModule = await import("../controller/roleController.js");
+const roleController = roleControllerModule.default;
 
 const initApiRoutes = (app) => {
 
@@ -34,8 +45,10 @@ const initApiRoutes = (app) => {
     router.post("/group/create", groupController.create);
     router.delete("/group/delete", groupController.deleteGroup);
 
-
-    
+    router.post("/category/create", categoryController.create);
+    router.get("/category/read", categoryController.read);
+    router.put("/category/update/:id", categoryController.update);
+    router.delete("/category/delete/:id", categoryController.deleteCategories);
 
     return app.use("/api/v1", router)
 

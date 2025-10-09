@@ -1,9 +1,5 @@
 import bcrypt from 'bcryptjs';
-import e from 'express';
-import mysql from 'mysql2/promise';
-import bluebird from 'bluebird';
-import db from '../models/index';
-import { where } from 'sequelize/lib/sequelize';
+import db from '../models/index.js';
 
 // create the connection, specify bluebird as Promise
 
@@ -55,6 +51,6 @@ const updateUserInfor = async (email, username, id) => {
     }
     )
 }
-module.exports = {
+export default {
     createNewUser, getUserlist, deleteUser, editUser, updateUserInfor
 }

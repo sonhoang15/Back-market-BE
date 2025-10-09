@@ -1,12 +1,13 @@
 import express from "express";
-import configViewEngine from "./config/viewEngine";
+import configViewEngine from "./config/viewEngine.js";
 import bodyParser from "body-parser";
-import initApiRoutes from "./routes/api";
-import initWebRoutes from "./routes/web";
-import configcors from "./config/cors";
+import initApiRoutes from "./routes/api.js";
+import initWebRoutes from "./routes/web.js";
+import configcors from "./config/cors.js";
 import cookieParser from 'cookie-parser'
-import connection from "./config/connectDB"
-require("dotenv").config();
+import connection from "./config/connectDB.js"
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
