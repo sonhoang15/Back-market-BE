@@ -36,7 +36,7 @@ export async function up(queryInterface, Sequelize) {
       defaultValue: 0,
     },
     image: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT('long'),
       allowNull: true,
     },
     source_url: {

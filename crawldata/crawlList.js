@@ -3,11 +3,18 @@ import db from "../src/models/index.js";
 const { Product, Category, Product_Variant } = db;
 
 const CATEGORY_URLS = [
-    { url: "https://krik.vn/ao-phong", name: "Áo Phông" },
-    { url: "https://krik.vn/quan-jeans", name: "Quần Jeans" },
-    { url: "https://krik.vn/day-lung", name: "Dây Lưng" },
-    { url: "https://krik.vn/balo-cap-xach", name: "Balo Cặp Xách" },
-    { url: "https://krik.vn/giay-dep", name: "Giày Dép" },
+    {
+        url: "https://krik.vn/ao-phong-pc6379.html",
+        url: "https://krik.vn/ao-blazer-pc564635.html", name: "Áo"
+    },
+    {
+        url: "https://krik.vn/quan-jeans-pc6415.html",
+        url: "https://krik.vn/quan-short-pc6416.html", name: "Quần"
+    },
+    {
+        url: "https://krik.vn/day-lung-pc501329.html",
+        url: "https://krik.vn/giay-dep-pc501331.html", name: " Phụ kiện"
+    },
 ];
 
 /**

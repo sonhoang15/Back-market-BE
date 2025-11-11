@@ -14,6 +14,8 @@ const PORT = process.env.PORT || 8080;
 // connection();
 configcors(app);
 
+
+app.use(express.json({ limit: "10mb" }));
 configViewEngine(app);
 
 app.use(bodyParser.json())

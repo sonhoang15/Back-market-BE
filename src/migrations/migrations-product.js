@@ -17,7 +17,7 @@ export async function up(queryInterface, Sequelize) {
       allowNull: true,
     },
     thumbnail: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT('long'),
       allowNull: true,
     },
     category_id: {

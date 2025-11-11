@@ -22,7 +22,12 @@ async function crawlDetailPage(page, product) {
         // Lấy màu (color) — selector phù hợp với krik.vn
         const colors = Array.from(document.querySelectorAll('#variant-swatch-0 .swatch-element label'))
             .map(label => ({
-                color: (label.getAttribute('data-name') || label.getAttribute('data-value') || label.innerText || '').toString().trim(),
+                color:
+                    label.getAttribute('data-name') ||
+                    label.getAttribute('data-original-title') ||
+                    label.querySelector('img')?.alt ||
+                    label.innerText?.trim() ||
+                    '',
                 colorImage: label.getAttribute('data-src') || label.querySelector('img')?.src || null,
             }))
             .filter(c => c.color); // chỉ lấy color có tên

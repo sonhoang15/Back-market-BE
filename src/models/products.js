@@ -14,7 +14,7 @@ export default (sequelize, DataTypes) => {
             id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
             name: { type: DataTypes.STRING, allowNull: false },
             description: DataTypes.TEXT,
-            thumbnail: DataTypes.STRING,
+            thumbnail: DataTypes.TEXT('long'),
             category_id: { type: DataTypes.INTEGER, allowNull: false },
 
             // 🧭 Phân biệt nguồn

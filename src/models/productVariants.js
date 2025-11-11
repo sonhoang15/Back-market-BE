@@ -58,7 +58,7 @@ export default (sequelize, DataTypes) => {
 
             // Ảnh riêng của biến thể
             image: {
-                type: DataTypes.STRING,
+                type: DataTypes.TEXT('long'),
                 allowNull: true,
             },
 

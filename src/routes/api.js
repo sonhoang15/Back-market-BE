@@ -1,4 +1,13 @@
 import express from "express";
+import productController from "../controller/productController.js";
+import variantController from "../controller/variantController.js";
+import clientController from "../controller/clientController.js";
+import multer from "multer";
+
+const storage = multer.memoryStorage();
+
+const upload = multer({ storage });
+
 const router = express.Router();
 
 const JWTActionModule = await import("../middleware/JWTAction.js");
@@ -49,6 +58,20 @@ const initApiRoutes = (app) => {
     router.get("/category/read", categoryController.read);
     router.put("/category/update/:id", categoryController.update);
     router.delete("/category/delete/:id", categoryController.deleteCategories);
+
+
+    router.get("/product/read", productController.getAllProducts);
+    router.post("/product/create", upload.fields([{ name: "thumbnail", maxCount: 10 }, { name: "variantImages", maxCount: 50 }]), productController.createProduct);
+    router.put("/product/update/:id", upload.single("thumbnail"), productController.updateProduct);
+    router.delete("/product/delete/:id", productController.deleteProduct);
+
+    router.get("/variant/read/:product_id", upload.any(), variantController.getVariantsByProduct);
+    router.put("/variant/update/:id", upload.any(), variantController.updateVariant);
+    router.post("/variant/create", upload.any(), variantController.createVariant);
+    router.delete("/variant/delete/:id", variantController.deleteVariant);
+
+    router.get("/product/by-category-advanced/:category_id", clientController.getProductsByCategoryAdvanced);
+
 
     return app.use("/api/v1", router)
 
