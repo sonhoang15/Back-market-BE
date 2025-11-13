@@ -2,14 +2,14 @@
 import { Model } from 'sequelize';
 
 export default (sequelize, DataTypes) => {
-    class Order_Items extends Model {
+    class OrderItem extends Model {
         static associate(models) {
-            Order_Items.belongsTo(models.Order, { foreignKey: 'order_id', as: 'order' });
-            Order_Items.belongsTo(models.Product_Variant, { foreignKey: 'product_variant_id', as: 'variant' });
+            OrderItem.belongsTo(models.Order, { foreignKey: 'order_id', as: 'order' });
+            OrderItem.belongsTo(models.ProductVariant, { foreignKey: 'product_variant_id', as: 'variant' });
         }
     }
 
-    Order_Items.init(
+    OrderItem.init(
         {
             id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
             order_id: DataTypes.INTEGER,
@@ -19,11 +19,11 @@ export default (sequelize, DataTypes) => {
         },
         {
             sequelize,
-            modelName: 'Order_Items',
-            tableName: 'Order_Items',
+            modelName: 'OrderItem',
+            tableName: 'OrderItems',
             timestamps: false,
         }
     );
 
-    return Order_Items;
+    return OrderItem;
 };

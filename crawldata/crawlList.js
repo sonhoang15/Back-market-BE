@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 import db from "../src/models/index.js";
-const { Product, Category, Product_Variant } = db;
+const { Product, Category, ProductVariant } = db;
 
 const CATEGORY_URLS = [
     {
@@ -117,7 +117,7 @@ export async function crawlList() {
 
             if (detail.variants?.length > 0) {
                 for (const v of detail.variants) {
-                    await Product_Variant.findOrCreate({
+                    await ProductVariant.findOrCreate({
                         where: { name: v.name, product_id: product.id },
                         defaults: {
                             product_id: product.id,

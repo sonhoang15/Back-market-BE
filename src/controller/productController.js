@@ -56,4 +56,46 @@ const deleteProduct = async (req, res) => {
     }
 };
 
-export default { createProduct, getAllProducts, updateProduct, deleteProduct };
+const getProductById = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        // Validate ID
+        if (!id || isNaN(parseInt(id))) {
+            return res.status(400).json({
+                EC: 1,
+                EM: "ID sản phẩm không hợp lệ",
+                DT: null
+            });
+        }
+
+        const product = await productService.getProductById(id);
+
+        // Check if product exists
+        if (!product) {
+            return res.status(404).json({
+                EC: 1,
+                EM: "Không tìm thấy sản phẩm",
+                DT: null
+            });
+        }
+
+        return res.status(200).json({
+            EC: 0,
+            EM: "Lấy thông tin sản phẩm thành công",
+            DT: product
+        });
+
+    } catch (error) {
+        console.error(" [getProductById] error:", error);
+        return res.status(500).json({
+            EC: 1,
+            EM: error.message || "Lỗi server khi lấy thông tin sản phẩm",
+            DT: null
+        });
+    }
+};
+
+
+
+export default { createProduct, getAllProducts, updateProduct, deleteProduct, getProductById };

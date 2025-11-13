@@ -10,7 +10,11 @@ export default (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Role.belongsToMany(models.Group, { through: 'Group_Role', foreignKey: 'roleId' });
+            Role.belongsToMany(models.Group, {
+                through: models.GroupRole,
+                foreignKey: 'roleId',
+                otherKey: 'groupId',
+            });
         }
     };
     Role.init({
@@ -19,7 +23,9 @@ export default (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'Role',
-        tableName: 'Role',
+        tableName: 'Roles', // SỬA THÀNH 'Roles'
+        underscored: true, // THÊM DÒNG NÀY
+        timestamps: true // THÊM DÒNG NÀY
     });
     return Role;
 };

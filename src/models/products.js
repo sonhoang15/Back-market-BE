@@ -4,7 +4,7 @@ import { Model } from 'sequelize';
 export default (sequelize, DataTypes) => {
     class Product extends Model {
         static associate(models) {
-            Product.hasMany(models.Product_Variant, { foreignKey: 'product_id', as: 'variants' });
+            Product.hasMany(models.ProductVariant, { foreignKey: 'product_id', as: 'variants' });
             Product.belongsTo(models.Category, { foreignKey: 'category_id', as: 'category' });
         }
     }
@@ -17,7 +17,6 @@ export default (sequelize, DataTypes) => {
             thumbnail: DataTypes.TEXT('long'),
             category_id: { type: DataTypes.INTEGER, allowNull: false },
 
-            // 🧭 Phân biệt nguồn
             source: {
                 type: DataTypes.ENUM('manual', 'crawl'),
                 defaultValue: 'manual',
@@ -29,14 +28,12 @@ export default (sequelize, DataTypes) => {
             price_max: { type: DataTypes.DECIMAL(12, 2), allowNull: true },
             is_active: { type: DataTypes.BOOLEAN, defaultValue: true },
 
-            // ⚙️ Trạng thái hiển thị (manual có thể published, crawl thì draft)
             status: {
                 type: DataTypes.ENUM('draft', 'published', 'hidden'),
                 defaultValue: 'draft',
                 comment: 'Trạng thái hiển thị của sản phẩm',
             },
 
-            // 🛠️ Nếu true → dữ liệu thủ công không bị ghi đè bởi crawl
             manual_override: {
                 type: DataTypes.BOOLEAN,
                 defaultValue: false,
@@ -44,9 +41,9 @@ export default (sequelize, DataTypes) => {
             },
 
             sync_status: {
-                type: DataTypes.STRING,
-                allowNull: true,
-                defaultValue: "synced",
+                type: DataTypes.ENUM('pending', 'synced', 'failed'),
+                allowNull: false,
+                defaultValue: 'pending',
                 comment: "Trạng thái đồng bộ dữ liệu crawl",
             },
 

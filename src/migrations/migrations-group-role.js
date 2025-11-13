@@ -8,10 +8,22 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.INTEGER
     },
     roleId: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      references: {
+        model: 'Roles',
+        key: 'id'
+      }
     },
     groupId: {
-      type: Sequelize.INTEGER
+      type: Sequelize.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      references: {
+        model: 'Groups',
+        key: 'id'
+      }
     },
     createdAt: {
       allowNull: false,

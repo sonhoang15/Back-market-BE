@@ -4,7 +4,11 @@ import { Model } from 'sequelize';
 export default (sequelize, DataTypes) => {
     class Order extends Model {
         static associate(models) {
-            Order.hasMany(models.Order_Items, { foreignKey: 'order_id', as: 'items' });
+            Order.hasMany(models.OrderItem, { foreignKey: 'order_id', as: 'items' });
+            Order.belongsTo(models.User, {
+                foreignKey: 'user_id',  // DÙNG user_id thay vì user_Id
+                as: 'user'
+            });
         }
     }
 

@@ -1,7 +1,7 @@
 import db from "../models/index.js";
 import { v2 as cloudinary } from "cloudinary";
 
-const { Product_Variant, Product } = db;
+const { ProductVariant, Product } = db;
 
 // ✅ Cấu hình Cloudinary
 cloudinary.config({
@@ -76,7 +76,7 @@ export const createVariant = async (data) => {
 
         const name = `${color || ""}${size ? " - " + size : ""}`.trim();
 
-        const variant = await Product_Variant.create({
+        const variant = await ProductVariant.create({
             product_id,
             name,
             color: color ?? null,
@@ -85,18 +85,27 @@ export const createVariant = async (data) => {
             stock: Number(finalStock),
             image: imageUrl,
             source_type: data.source_type ?? "manual",
-            sync_status: "pending",
+            sync_status: "manual_edited", // 🔹 SỬA: 'pending' → 'manual_edited'
         });
 
         return { EC: 0, EM: "Tạo biến thể thành công", DT: variant };
     } catch (error) {
         console.error("❌ [createVariant] Lỗi:", error);
-        return { EC: 1, EM: error.message || "Lỗi khi tạo biến thể", DT: null };
+
+        // 🔹 Xử lý lỗi sync_status chi tiết hơn
+        let errorMessage = error.message || "Lỗi khi tạo biến thể";
+        if (error.name === 'SequelizeDatabaseError') {
+            if (error.parent?.code === 'WARN_DATA_TRUNCATED' && error.parent?.sqlMessage?.includes('sync_status')) {
+                errorMessage = "Lỗi dữ liệu: Giá trị sync_status không hợp lệ. Chỉ cho phép: 'synced', 'manual_edited'";
+            }
+        }
+
+        return { EC: 1, EM: errorMessage, DT: null };
     }
 };
 
 export const getVariantsByProduct = async (product_id) => {
-    return await Product_Variant.findAll({
+    return await ProductVariant.findAll({
         where: { product_id },
         order: [["id", "ASC"]],
     });
@@ -104,7 +113,7 @@ export const getVariantsByProduct = async (product_id) => {
 
 export const updateVariant = async (data, file) => {
     try {
-        const variant = await Product_Variant.findByPk(data.id);
+        const variant = await ProductVariant.findByPk(data.id);
         if (!variant) throw new Error("Variant not found");
 
         let imageUrl = variant.image;
@@ -155,7 +164,7 @@ export const deleteVariant = async (id) => {
     try {
         if (!id) return { EC: 1, EM: "Missing variant id" };
 
-        const variant = await Product_Variant.findByPk(id);
+        const variant = await ProductVariant.findByPk(id);
         if (!variant) {
             return { EC: 1, EM: "Không tìm thấy biến thể", DT: null };
         }

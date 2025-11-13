@@ -1,7 +1,7 @@
 'use strict';
 import { Model } from 'sequelize';
 export default (sequelize, DataTypes) => {
-    class Group_Role extends Model {
+    class GroupRole extends Model {
         /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
@@ -11,13 +11,23 @@ export default (sequelize, DataTypes) => {
             // define association here
         }
     };
-    Group_Role.init({
-        roleId: DataTypes.INTEGER,
-        groupId: DataTypes.INTEGER,
+    GroupRole.init({
+        roleId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: 'role_id',
+        },
+        groupId: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            field: 'group_id',
+        },
     }, {
         sequelize,
-        modelName: 'Group_Role',
-        tableName: 'Group_Role',
+        modelName: 'GroupRole',
+        tableName: 'GroupRole',
+        underscored: true,
+        timestamps: true
     });
-    return Group_Role;
+    return GroupRole;
 };

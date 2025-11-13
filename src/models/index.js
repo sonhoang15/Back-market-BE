@@ -1,50 +1,75 @@
-import dotenv from "dotenv";
-import fs from "fs";
-import path from "path";
 import { Sequelize } from "sequelize";
-import { fileURLToPath, pathToFileURL } from "url";
+import config from "../config/config.js";
 
-dotenv.config();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || "development";
+const dbConfig = config[env];
 
-// ✅ Cách đọc config JSON an toàn trên Windows
-const configPath = path.join(__dirname, "../config/config.json");
-const rawConfig = fs.readFileSync(configPath, "utf-8");
-const config = JSON.parse(rawConfig)[env];
+const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
+  host: dbConfig.host,
+  dialect: dbConfig.dialect,
+  logging: false, // Tắt logging SQL
+});
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+const models = {};
+
+try {
+  // Kết nối database
+  await sequelize.authenticate();
+
+  // Khởi tạo tất cả models
+  const ProductModule = await import("./products.js");
+  models.Product = ProductModule.default(sequelize, Sequelize.DataTypes);
+
+  const ProductVariantModule = await import("./productVariants.js");
+  models.ProductVariant = ProductVariantModule.default(sequelize, Sequelize.DataTypes);
+
+  const CategoryModule = await import("./categories.js");
+  models.Category = CategoryModule.default(sequelize, Sequelize.DataTypes);
+
+  const UserModule = await import("./user.js");
+  models.User = UserModule.default(sequelize, Sequelize.DataTypes);
+
+  const OrderModule = await import("./orders.js");
+  models.Order = OrderModule.default(sequelize, Sequelize.DataTypes);
+
+  const OrderItemModule = await import("./orderItems.js");
+  models.OrderItem = OrderItemModule.default(sequelize, Sequelize.DataTypes);
+
+  const RoleModule = await import("./role.js");
+  models.Role = RoleModule.default(sequelize, Sequelize.DataTypes);
+
+  const GroupModule = await import("./group.js");
+  models.Group = GroupModule.default(sequelize, Sequelize.DataTypes);
+
+  const GroupRoleModule = await import("./groupRole.js");
+  models.GroupRole = GroupRoleModule.default(sequelize, Sequelize.DataTypes);
+
+} catch (error) {
+  console.error('Error initializing models:', error);
+  process.exit(1);
 }
 
-const db = {};
-
-const files = fs
-  .readdirSync(__dirname)
-  .filter((file) => file.indexOf(".") !== 0 && file !== basename && file.endsWith(".js"));
-
-for (const file of files) {
-  // ✅ Luôn dùng file:// URL khi import động trong ESM
-  const modelPath = pathToFileURL(path.join(__dirname, file)).href;
-  const modelModule = await import(modelPath);
-  const model = modelModule.default(sequelize, Sequelize.DataTypes);
-  db[model.name] = model;
-}
-
-for (const modelName of Object.keys(db)) {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+// Setup associations
+Object.keys(models).forEach(modelName => {
+  if (models[modelName].associate) {
+    models[modelName].associate(models);
   }
+});
+
+// Sync database
+try {
+  await sequelize.sync({
+    force: false,
+    alter: true,
+  });
+} catch (error) {
+  console.error('Database sync error:', error);
 }
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+const db = {
+  ...models,
+  sequelize,
+  Sequelize
+};
 
 export default db;

@@ -1,19 +1,26 @@
-import { Sequelize } from 'sequelize';
+import db from "../models/index.js";
 
-const sequelize = new Sequelize('back-market', 'root', null, {
-    host: 'localhost',
-    dialect: 'mysql',
-});
 
-const connection = async () => {
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
+const connectDB = async (retries = 5, delay = 5000) => {
+    for (let i = 0; i < retries; i++) {
+        try {
+            await db.sequelize.authenticate();
+
+
+            if (process.env.NODE_ENV === 'development') {
+                await db.sequelize.sync({ force: false });
+            }
+            return db;
+        } catch (error) {
+            if (i < retries - 1) {
+                console.log(`Waiting ${delay / 1000} seconds before retry...`);
+                await new Promise(resolve => setTimeout(resolve, delay));
+            } else {
+                console.error('All connection attempts failed');
+                throw error;
+            }
+        }
     }
-}
+};
 
-export default connection;
-
-
+export default connectDB;

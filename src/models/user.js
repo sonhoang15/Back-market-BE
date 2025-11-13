@@ -9,8 +9,8 @@ export default (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.belongsTo(models.Group, { foreignKey: 'groupId' });
-      User.hasMany(models.Order, { foreignKey: 'user_Id' });
+      User.belongsTo(models.Group, { foreignKey: 'group_id' });
+      User.hasMany(models.Order, { foreignKey: 'user_id' });
     }
   };
   User.init({
@@ -23,6 +23,9 @@ export default (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
+    tableName: 'Users',
+    underscored: true,
+    timestamps: true
   });
   return User;
 };

@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 import db from "../src/models/index.js";
-const { Product, Product_Variant } = db;
+const { Product, ProductVariant } = db;
 
 async function crawlDetailPage(page, product) {
     if (!product.source_url || !product.source_url.startsWith("http")) return null;
@@ -141,7 +141,7 @@ export async function crawlDetailAll() {
 
                     const variantName = v.name || `${v.color || ''}${v.size ? ' - ' + v.size : ''}`.trim();
 
-                    await Product_Variant.findOrCreate({
+                    await ProductVariant.findOrCreate({
                         where: {
                             product_id: product.id,
                             color: v.color,

@@ -1,6 +1,6 @@
 // service/productService.js
 import db from "../models/index.js";
-const { Product, Product_Variant, Category } = db;
+const { Product, ProductVariant, Category } = db;
 
 export const getProductsByCategoryAdvanced = async (category_id, query) => {
     try {
@@ -18,15 +18,15 @@ export const getProductsByCategoryAdvanced = async (category_id, query) => {
 
         // Build sort
         let order = [["id", "DESC"]];
-        if (sort === "price_asc") order = [[Product_Variant, "price", "ASC"]];
-        else if (sort === "price_desc") order = [[Product_Variant, "price", "DESC"]];
+        if (sort === "price_asc") order = [[ProductVariant, "price", "ASC"]];
+        else if (sort === "price_desc") order = [[ProductVariant, "price", "DESC"]];
         else if (sort === "newest") order = [["created_at", "DESC"]];
 
         const products = await Product.findAll({
             where: { category_id },
             include: [
                 {
-                    model: Product_Variant,
+                    model: ProductVariant,
                     as: "variants",
                     where: Object.keys(variantWhere).length > 0 ? variantWhere : undefined,
                     required: false // nếu filter mà không có variant vẫn hiển thị product

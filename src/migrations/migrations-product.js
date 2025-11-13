@@ -52,9 +52,9 @@ export async function up(queryInterface, Sequelize) {
       defaultValue: true,
     },
     status: {
-      type: Sequelize.ENUM('draft', 'published', 'hidden'),
+      type: Sequelize.ENUM('pending', 'synced', 'failed'),
       allowNull: false,
-      defaultValue: 'draft',
+      defaultValue: 'pending',
       comment: 'Trạng thái hiển thị của sản phẩm',
     },
     manual_override: {

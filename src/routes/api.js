@@ -61,6 +61,7 @@ const initApiRoutes = (app) => {
 
 
     router.get("/product/read", productController.getAllProducts);
+    router.get("/product/read/:id", productController.getProductById);
     router.post("/product/create", upload.fields([{ name: "thumbnail", maxCount: 10 }, { name: "variantImages", maxCount: 50 }]), productController.createProduct);
     router.put("/product/update/:id", upload.single("thumbnail"), productController.updateProduct);
     router.delete("/product/delete/:id", productController.deleteProduct);

@@ -2,17 +2,17 @@
 import { Model } from 'sequelize';
 
 export default (sequelize, DataTypes) => {
-    class Product_Variant extends Model {
+    class ProductVariant extends Model {
         static associate(models) {
             // Mỗi biến thể thuộc về một sản phẩm
-            Product_Variant.belongsTo(models.Product, {
+            ProductVariant.belongsTo(models.Product, {
                 foreignKey: 'product_id',
                 as: 'product',
             });
         }
     }
 
-    Product_Variant.init(
+    ProductVariant.init(
         {
             id: {
                 type: DataTypes.INTEGER,
@@ -77,9 +77,9 @@ export default (sequelize, DataTypes) => {
 
             // ⚙️ Trạng thái đồng bộ
             sync_status: {
-                type: DataTypes.ENUM('synced', 'manual_edited'),
+                type: DataTypes.ENUM('synced', 'manual_edited', 'pending'),
                 allowNull: false,
-                defaultValue: 'synced',
+                defaultValue: 'pending'
             },
 
             // 🕒 Lần crawl gần nhất
@@ -97,8 +97,8 @@ export default (sequelize, DataTypes) => {
         },
         {
             sequelize,
-            modelName: 'Product_Variant',
-            tableName: 'Product_Variants',
+            modelName: 'ProductVariant',
+            tableName: 'ProductVariants',
             createdAt: 'created_at',
             updatedAt: 'updated_at',
             timestamps: true, // ✅ Bật timestamps cho đồng nhất với Product
@@ -106,5 +106,5 @@ export default (sequelize, DataTypes) => {
         }
     );
 
-    return Product_Variant;
+    return ProductVariant;
 };

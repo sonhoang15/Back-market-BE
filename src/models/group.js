@@ -9,8 +9,12 @@ export default (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Group.hasMany(models.User, { foreignKey: 'groupId' });
-            Group.belongsToMany(models.Role, { through: 'Group_Role', foreignKey: 'groupId' });
+            Group.hasMany(models.User, { foreignKey: 'group_id' });
+            Group.belongsToMany(models.Role, {
+                through: models.GroupRole,
+                foreignKey: 'groupId',
+                otherKey: 'roleId',
+            });
         }
     };
     Group.init({
@@ -19,7 +23,9 @@ export default (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'Group',
-        tableName: 'Group',
+        tableName: 'Groups', // SỬA THÀNH 'Groups'
+        underscored: true, // THÊM DÒNG NÀY
+        timestamps: true // THÊM DÒNG NÀY
     });
     return Group;
 };
