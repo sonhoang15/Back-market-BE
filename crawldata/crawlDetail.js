@@ -154,7 +154,7 @@ export async function crawlDetailAll() {
                             size: v.size || null,
                             image: v.image || null,
                             price: v.price != null ? Number(v.price) : null,
-                            stock: v.stock != null ? Number(v.stock) : 0,
+                            stock: v.stock != null ? Number(v.stock) : 1,
                             source_url: product.source_url || null,
                             source_type: "crawler",
                             sync_status: "synced",

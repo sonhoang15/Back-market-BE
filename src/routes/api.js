@@ -28,11 +28,22 @@ const categoryController = categoryControllerModule.default;
 const roleControllerModule = await import("../controller/roleController.js");
 const roleController = roleControllerModule.default;
 
+const cartControllerModule = await import("../controller/cartController.js");
+const cartController = cartControllerModule.default;
+
+const emailControllerModule = await import("../controller/emailController.js");
+const emailController = emailControllerModule.default;
+
+
 const initApiRoutes = (app) => {
 
     router.post("/register", apiController.handleRegister);
     router.post("/login", apiController.handleLogin);
     router.post("/logout", apiController.handleLogout);
+
+    router.post("/orders/save", clientController.saveOrder);
+    router.get("/product/search", clientController.searchProductsController);
+    router.post("/order/email", emailController.sendOrderEmail);
 
     app.all('*', checkUserJWT, checkUserPermission);
     router.get("/account", userController.getUserAccount)
@@ -71,8 +82,22 @@ const initApiRoutes = (app) => {
     router.post("/variant/create", upload.any(), variantController.createVariant);
     router.delete("/variant/delete/:id", variantController.deleteVariant);
 
-    router.get("/product/by-category-advanced/:category_id", clientController.getProductsByCategoryAdvanced);
 
+    router.get("/cart/read", cartController.getCart);
+    router.post("/cart/add-item", cartController.addToCart);
+    router.put("/cart/update/:itemId", cartController.updateCartItem);
+    router.delete("/cart/delete/:itemId", cartController.removeCartItem);
+    router.post("/cart/checkout", cartController.checkoutCart);
+    router.delete("/cart/clear/:cartId", cartController.clearCartController);
+
+    router.get("/product/by-category-advanced/:category_id", clientController.getProductsByCategoryAdvanced);
+    router.get("/profile", clientController.getProfile);
+    router.put("/profile/update", clientController.updateProfile);
+    router.get("/orders/all", clientController.getAllOrders);
+    router.get("/orders/detail/:id", clientController.getOrderDetail);
+    router.put("/order/update-status/:id", clientController.updateOrderStatus);
+    router.get("/product/best-seller", clientController.bestSeller);
+    router.get("/product/newest", clientController.newestProducts);
 
     return app.use("/api/v1", router)
 

@@ -11,14 +11,20 @@ export default (sequelize, DataTypes) => {
       // define association here
       User.belongsTo(models.Group, { foreignKey: 'group_id' });
       User.hasMany(models.Order, { foreignKey: 'user_id' });
+      User.hasOne(models.Cart, { foreignKey: 'user_id', as: 'cart' });
     }
   };
   User.init({
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     username: DataTypes.STRING,
+    fullName: DataTypes.STRING,   // thêm
+    birthday: DataTypes.DATEONLY, // thêm
     address: DataTypes.STRING,
     phone: DataTypes.STRING,
+    province: DataTypes.STRING,   // thêm
+    district: DataTypes.STRING,   // thêm
+    ward: DataTypes.STRING,       // thêm
     groupId: DataTypes.INTEGER
   }, {
     sequelize,

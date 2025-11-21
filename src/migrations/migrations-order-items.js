@@ -10,14 +10,21 @@ export async function up(queryInterface, Sequelize) {
     order_id: {
       type: Sequelize.INTEGER
     },
-    product_variant_id: {
-      type: Sequelize.STRING
+    product_id: {
+      type: Sequelize.INTEGER
+    },
+    variant_id: {
+      type: Sequelize.INTEGER
     },
     quantity: {
       type: Sequelize.INTEGER
     },
     unit_price: {
       type: Sequelize.DECIMAL(10, 2)
+    },
+    total_price: {
+      type: DataTypes.DECIMAL(12, 2),
+      allowNull: true
     },
     createdAt: {
       allowNull: false,

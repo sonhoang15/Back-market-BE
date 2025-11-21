@@ -4,16 +4,23 @@ const { Product, Category, ProductVariant } = db;
 
 const CATEGORY_URLS = [
     {
-        url: "https://krik.vn/ao-phong-pc6379.html",
-        url: "https://krik.vn/ao-blazer-pc564635.html", name: "Áo"
+        url: [
+            "https://krik.vn/ao-phong-pc6379.html",
+            "https://krik.vn/ao-blazer-pc564635.html",
+            "https://krik.vn/so-mi-dai-tay-pc565516.html"
+        ], name: "Áo"
     },
     {
-        url: "https://krik.vn/quan-jeans-pc6415.html",
-        url: "https://krik.vn/quan-short-pc6416.html", name: "Quần"
+        url: [
+            "https://krik.vn/quan-jeans-pc6415.html",
+            "https://krik.vn/quan-short-pc6416.html"
+        ], name: "Quần"
     },
     {
-        url: "https://krik.vn/day-lung-pc501329.html",
-        url: "https://krik.vn/giay-dep-pc501331.html", name: " Phụ kiện"
+        url: [
+            "https://krik.vn/day-lung-pc501329.html",
+            "https://krik.vn/giay-dep-pc501331.html"
+        ], name: " Phụ kiện"
     },
 ];
 
@@ -73,67 +80,68 @@ export async function crawlList() {
 
     let totalProducts = 0;
 
-    for (const { url: categoryUrl, name: categoryName } of CATEGORY_URLS) {
-        const products = await crawlCategory(page, categoryUrl);
-        totalProducts += products.length;
+    for (const { url: categoryUrls, name: categoryName } of CATEGORY_URLS) {
 
-        const [category] = await Category.findOrCreate({
-            where: { name: categoryName },
-            defaults: { description: "" },
-        });
+        for (const categoryUrl of categoryUrls) {
 
-        for (const p of products) {
-            if (!p.name?.trim() || !p.link?.startsWith("http")) continue;
+            const products = await crawlCategory(page, categoryUrl);
+            totalProducts += products.length;
 
-            const detail = await crawlProductDetail(page, p.link);
-            const priceNum = parseFloat(p.price.replace(/[^\d]/g, "")) || null;
-
-            const [product, created] = await Product.findOrCreate({
-                where: { source_url: p.link },
-                defaults: {
-                    name: p.name,
-                    thumbnail: p.thumbnail,
-                    category_id: category.id,
-                    description: detail.desc,
-                    source: "crawl",
-                    source_url: p.link,
-                    price_min: priceNum,
-                    price_max: priceNum,
-                    sync_status: "synced",
-                    last_crawled_at: new Date(),
-                },
+            const [category] = await Category.findOrCreate({
+                where: { name: categoryName },
+                defaults: { description: "" },
             });
 
-            if (!created) {
-                await product.update({
-                    name: p.name,
-                    thumbnail: p.thumbnail,
-                    description: detail.desc,
-                    price_min: priceNum,
-                    price_max: priceNum,
-                    last_crawled_at: new Date(),
-                });
-            }
+            for (const p of products) {
+                if (!p.name?.trim() || !p.link?.startsWith("http")) continue;
 
-            if (detail.variants?.length > 0) {
-                for (const v of detail.variants) {
-                    await ProductVariant.findOrCreate({
-                        where: { name: v.name, product_id: product.id },
-                        defaults: {
-                            product_id: product.id,
-                            name: v.name,
-                            source_type: "crawler",
-                            sync_status: "synced",
-                            last_crawled_at: new Date(),
-                        },
+                const detail = await crawlProductDetail(page, p.link);
+                const priceNum = parseFloat(p.price.replace(/[^\d]/g, "")) || null;
+
+                const [product, created] = await Product.findOrCreate({
+                    where: { source_url: p.link },
+                    defaults: {
+                        name: p.name,
+                        thumbnail: p.thumbnail,
+                        category_id: category.id,
+                        description: detail.desc,
+                        source: "crawl",
+                        source_url: p.link,
+                        price_min: priceNum,
+                        price_max: priceNum,
+                        sync_status: "synced",
+                        last_crawled_at: new Date(),
+                    },
+                });
+
+                if (!created) {
+                    await product.update({
+                        name: p.name,
+                        thumbnail: p.thumbnail,
+                        description: detail.desc,
+                        price_min: priceNum,
+                        price_max: priceNum,
+                        last_crawled_at: new Date(),
                     });
                 }
+
+                if (detail.variants?.length > 0) {
+                    for (const v of detail.variants) {
+                        await ProductVariant.findOrCreate({
+                            where: { name: v.name, product_id: product.id },
+                            defaults: {
+                                product_id: product.id,
+                                name: v.name,
+                                source_type: "crawler",
+                                sync_status: "synced",
+                                last_crawled_at: new Date(),
+                            },
+                        });
+                    }
+                }
             }
+
+            console.log(` Đã lưu ${products.length} sản phẩm cho danh mục "${categoryName}"`);
         }
-
-        console.log(` Đã lưu ${products.length} sản phẩm cho danh mục "${categoryName}"`);
     }
-
-    console.log(` Hoàn tất crawl danh sách. Tổng ${totalProducts} sản phẩm.`);
-    await browser.close();
 }

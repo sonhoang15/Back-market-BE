@@ -6,6 +6,7 @@ export default (sequelize, DataTypes) => {
         static associate(models) {
             Product.hasMany(models.ProductVariant, { foreignKey: 'product_id', as: 'variants' });
             Product.belongsTo(models.Category, { foreignKey: 'category_id', as: 'category' });
+            Product.hasMany(models.OrderItem, { foreignKey: 'product_id', as: 'orderItems' });
         }
     }
 
@@ -70,6 +71,7 @@ export default (sequelize, DataTypes) => {
             createdAt: 'created_at',
             updatedAt: 'updated_at',
             timestamps: true,
+            underscored: true,
         }
     );
 

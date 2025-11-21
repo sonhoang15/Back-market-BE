@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 
-const nonSecurePaths = ['/api/v1/home', '/api/v1/login', '/api/v1/register', '/api/v1/logout', '/api/v1/auth'];
+const nonSecurePaths = ['/api/v1/home', '/api/v1/login', '/api/v1/register', '/api/v1/logout', '/api/v1/auth', '/api/v1/product/by-category-advanced/:category_id'];
 
 const createJWT = (payload) => {
     let key = process.env.JWT_KEY
@@ -43,31 +43,36 @@ const checkUserJWT = (req, res, next) => {
     if (nonSecurePaths.includes(req.path)) {
         return next();
     }
+
     let cookies = req.cookies;
-    let tokenFromHeader = extractToken(req)
+    let tokenFromHeader = extractToken(req);
+
     if ((cookies && cookies.jwt) || tokenFromHeader) {
         let token = cookies && cookies.jwt ? cookies.jwt : tokenFromHeader;
-        let decoded = verifyToken(token)
+
+        let decoded = verifyToken(token);
+
         if (decoded) {
             req.user = decoded;
-            req.token = token
+            req.token = token;
             next();
         } else {
             return res.status(401).json({
                 EC: -1,
                 DT: '',
                 EM: 'not authenticated the user 2'
-            })
+            });
         }
     } else {
+        console.log(" No JWT found in cookies or header");
         return res.status(401).json({
             EC: -1,
             DT: '',
             EM: 'not authenticated the user 3'
-        })
+        });
     }
+};
 
-}
 
 const checkUserPermission = (req, res, next) => {
     if (nonSecurePaths.includes(req.path) || req.path === '/api/v1/account') return next();
@@ -75,9 +80,6 @@ const checkUserPermission = (req, res, next) => {
         let email = req.user.email
         let roles = req.user.groupWithRoles.Roles
         let currentUrl = normalizeUrl(req.path)
-        // console.log(" Route req.path       :", req.path);
-        // console.log(" Normalized path      :", currentUrl);
-        // console.log(" Roles of user        :", roles.map(r => r.url));
         if (!roles || roles.length === 0) {
             return res.status(403).json({
                 EC: -1,

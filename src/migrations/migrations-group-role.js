@@ -1,6 +1,6 @@
 'use strict';
 export async function up(queryInterface, Sequelize) {
-  await queryInterface.createTable('Group_Role', {
+  await queryInterface.createTable('GroupRole', {
     id: {
       allowNull: false,
       autoIncrement: true,
@@ -37,5 +37,5 @@ export async function up(queryInterface, Sequelize) {
 }
 
 export async function down(queryInterface, Sequelize) {
-  await queryInterface.dropTable('Group_Role');
+  await queryInterface.dropTable('GroupRole');
 }

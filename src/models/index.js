@@ -44,6 +44,12 @@ try {
   const GroupRoleModule = await import("./groupRole.js");
   models.GroupRole = GroupRoleModule.default(sequelize, Sequelize.DataTypes);
 
+  const CartModule = await import("./cart.js");
+  models.Cart = CartModule.default(sequelize, Sequelize.DataTypes);
+
+  const CartItemModule = await import("./cartItem.js");
+  models.CartItem = CartItemModule.default(sequelize, Sequelize.DataTypes);
+
 } catch (error) {
   console.error('Error initializing models:', error);
   process.exit(1);

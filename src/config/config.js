@@ -9,6 +9,7 @@ const config = {
     host: process.env.DB_HOST || "127.0.0.1",
     dialect: "mysql",
     logging: false,
+    timezone: "+07:00",
   },
   test: {
     username: process.env.DB_USER || "root",
@@ -16,6 +17,7 @@ const config = {
     database: process.env.DB_TEST || "database_test",
     host: process.env.DB_HOST || "127.0.0.1",
     dialect: "mysql",
+    timezone: "+07:00",
   },
   production: {
     username: process.env.DB_USER || "root",
@@ -24,6 +26,7 @@ const config = {
     host: process.env.DB_HOST || "127.0.0.1",
     dialect: "mysql",
     logging: false,
+    timezone: "+07:00",
   },
 };
 

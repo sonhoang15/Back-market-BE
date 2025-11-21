@@ -10,7 +10,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql  # Sử dụng named volume thay vì bind mount
+      - mysql_data:/var/lib/mysql
     command: 
       - --default-authentication-plugin=mysql_native_password
       - --innodb-buffer-pool-size=128M
@@ -21,12 +21,43 @@ services:
       retries: 10
       start_period: 40s
 
+  # ➕ THÊM DỊCH VỤ OPENSEARCH
+  opensearch:
+    image: opensearchproject/opensearch:2.11.0
+    container_name: opensearch
+    environment:
+      - discovery.type=single-node
+      - plugins.security.disabled=true
+      - "OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+
+  # ➕ THÊM OPENSEARCH DASHBOARDS
+  opensearch_dashboards:
+    image: opensearchproject/opensearch-dashboards:2.11.0
+    container_name: opensearch_dashboards
+    environment:
+      - OPENSEARCH_HOSTS=http://opensearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - opensearch
+
   backend:
     build: .
     restart: always
     depends_on:
       db:
         condition: service_healthy
+      opensearch:
+        condition: service_started
     environment:
       NODE_ENV: development
       DB_HOST: db
@@ -34,9 +65,8 @@ services:
       DB_PASS: mypass
       DB_NAME: mydb
       DB_PORT: 3306
-    ports:
-      - "5000:8080"
+      OPENSEARCH_NODE: http://opensearch:9200
 
-# THÊM PHẦN NÀY
 volumes:
   mysql_data:
+  opensearch_data:

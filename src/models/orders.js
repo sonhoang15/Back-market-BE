@@ -6,7 +6,7 @@ export default (sequelize, DataTypes) => {
         static associate(models) {
             Order.hasMany(models.OrderItem, { foreignKey: 'order_id', as: 'items' });
             Order.belongsTo(models.User, {
-                foreignKey: 'user_id',  // DÙNG user_id thay vì user_Id
+                foreignKey: 'user_id',
                 as: 'user'
             });
         }
@@ -16,8 +16,23 @@ export default (sequelize, DataTypes) => {
         {
             id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
             user_id: DataTypes.INTEGER,
+
+            // Thông tin khách đặt hàng
+            email: DataTypes.STRING,
+            username: DataTypes.STRING,
+            phone: DataTypes.STRING,
+
+            // Địa chỉ giao hàng
+            address: DataTypes.STRING,
+            province: DataTypes.STRING,
+            district: DataTypes.STRING,
+            ward: DataTypes.STRING,
+
+            note: DataTypes.TEXT,
+            payment_method: DataTypes.STRING,
+
             total_price: DataTypes.DECIMAL(12, 2),
-            status: DataTypes.STRING,
+            status: { type: DataTypes.STRING, defaultValue: "pending" },
         },
         {
             sequelize,

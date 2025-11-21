@@ -57,7 +57,6 @@ const registerNewUser = async (userData) => {
             email: userData.email,
             password: hashPass,
             phone: userData.phone,
-            address: userData.address,
             username: userData.username,
             groupId: 2
         });
@@ -102,6 +101,7 @@ const handleUserLogin = async (data) => {
             if (isPasswordValid === true) {
                 let groupWithRoles = await getGroupWithRoles(user)
                 let payload = {
+                    user_id: user.id,
                     email: user.email,
                     username: user.username,
                     groupWithRoles,
@@ -111,6 +111,7 @@ const handleUserLogin = async (data) => {
                     EM: "Login successful",
                     EC: 0,
                     DT: {
+                        user_id: user.id,
                         access_token: token,
                         groupWithRoles,
                         email: user.email,

@@ -16,15 +16,34 @@ export async function up(queryInterface, Sequelize) {
     username: {
       type: Sequelize.STRING
     },
+
+    // 🆕 Thêm các trường thông tin cá nhân
+    full_name: {
+      type: Sequelize.STRING
+    },
+    birthday: {
+      type: Sequelize.DATEONLY
+    },
+    province: {
+      type: Sequelize.STRING
+    },
+    district: {
+      type: Sequelize.STRING
+    },
+    ward: {
+      type: Sequelize.STRING
+    },
+
     address: {
       type: Sequelize.STRING
     },
     phone: {
       type: Sequelize.STRING
     },
-    groupId: {
+    group_id: {
       type: Sequelize.INTEGER
     },
+
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE

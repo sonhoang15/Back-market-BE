@@ -5,20 +5,23 @@ import initApiRoutes from "./routes/api.js";
 import initWebRoutes from "./routes/web.js";
 import configcors from "./config/cors.js";
 import cookieParser from 'cookie-parser';
-import connectDB from "./config/connectDB.js"; // ← CHỈ THAY ĐỔI Ở ĐÂY
+import connectDB from "./config/connectDB.js";
 import dotenv from "dotenv";
+import { ensureProductIndex } from "./search/createProductIndex.js";
+import { syncProductsToOpenSearch } from "./search/syncProducts.js";
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// KHỞI ĐỘNG ỨNG DỤNG - GIỮ NGUYÊN LOGIC
 const startServer = async () => {
     try {
-        // Kết nối database trước - GIỮ NGUYÊN
+
         await connectDB();
 
-        // Sau khi database kết nối, khởi tạo server - GIỮ NGUYÊN
+        await ensureProductIndex();
+        await syncProductsToOpenSearch();
+
         configcors(app);
         app.use(express.json({ limit: "10mb" }));
         configViewEngine(app);
