@@ -20,13 +20,21 @@ const config = {
     timezone: "+07:00",
   },
   production: {
-    username: process.env.DB_USER || "root",
-    password: process.env.DB_PASS || null,
-    database: process.env.DB_PROD || "database_production",
-    host: process.env.DB_HOST || "127.0.0.1",
+    username: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    database: process.env.DB_NAME,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     dialect: "mysql",
     logging: false,
     timezone: "+07:00",
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: true,
+        ca: process.env.DB_SSL_CA
+      }
+    }
   },
 };
 
