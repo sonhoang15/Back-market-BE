@@ -9,10 +9,11 @@ const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.p
   dialect: dbConfig.dialect,
   logging: false,
   dialectOptions: {
-    ssl: true
+    ssl: {
+      rejectUnauthorized: false
+    }
   },
 });
-
 const models = {};
 
 try {
