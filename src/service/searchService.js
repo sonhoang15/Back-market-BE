@@ -3,7 +3,7 @@ import { PRODUCT_INDEX } from "../config/opensearchIndex.js";
 
 /**
  * searchProductsService
- * @param {Object} params - req.query object
+ * @param {Object} params 
  */
 export const searchProductsService = async (params = {}) => {
     try {
@@ -24,9 +24,6 @@ export const searchProductsService = async (params = {}) => {
 
         const from = (Number(page) - 1) * Number(limit);
 
-        // ==================================================
-        // 🔥 Completion Suggest (gợi ý search)
-        // ==================================================
         if (suggest) {
             const suggestResp = await osClient.search({
                 index: PRODUCT_INDEX,
@@ -52,15 +49,9 @@ export const searchProductsService = async (params = {}) => {
             return { EC: 0, EM: "OK", DT: suggestions };
         }
 
-        // ==================================================
-        // 🔍 Build Query
-        // ==================================================
         const must = [];
         const filter = [];
 
-        // --------------------------------------------------
-        // 🔍 SEARCH: Nếu là chữ → fuzzy (name, desc, brand)
-        // --------------------------------------------------
         if (q && isNaN(q)) {
             must.push({
                 "bool": {
@@ -89,9 +80,6 @@ export const searchProductsService = async (params = {}) => {
             })
         }
 
-        // --------------------------------------------------
-        // 🔍 SEARCH: Nếu user nhập số → search theo price
-        // --------------------------------------------------
         if (q && !isNaN(q)) {
             const num = Number(q);
 
@@ -118,13 +106,9 @@ export const searchProductsService = async (params = {}) => {
             });
         }
 
-        // --------------------------------------------------
-        // Bộ lọc thông thường
-        // --------------------------------------------------
         if (category) filter.push({ term: { category_id: Number(category) } });
         if (brand) filter.push({ term: { brand } });
 
-        // price range
         if (minPrice || maxPrice) {
             const range = {};
             if (minPrice) range.gte = Number(minPrice);
@@ -146,7 +130,6 @@ export const searchProductsService = async (params = {}) => {
             });
         }
 
-        // color / size filter
         if (color || size) {
             const nestedQuery = { bool: { must: [] } };
             if (color) nestedQuery.bool.must.push({ term: { "variants.color": color } });
@@ -161,9 +144,6 @@ export const searchProductsService = async (params = {}) => {
         if (must.length) boolQuery.must = must;
         if (filter.length) boolQuery.filter = filter;
 
-        // ==================================================
-        // 🔽 Sort
-        // ==================================================
         let sortArr;
 
         if (sort === "price_asc") {
@@ -175,16 +155,11 @@ export const searchProductsService = async (params = {}) => {
         } else if (sort === "stock") {
             sortArr = [{ totalStock: "desc" }];
         } else if (q) {
-            // if there is a search query, default to relevance
             sortArr = [{ _score: "desc" }, { created_at: "desc" }];
         } else {
-            // default for browsing
             sortArr = [{ created_at: "desc" }];
         }
 
-        // ==================================================
-        // 🔎 Execute Search
-        // ==================================================
         const resp = await osClient.search({
             index: PRODUCT_INDEX,
             body: {

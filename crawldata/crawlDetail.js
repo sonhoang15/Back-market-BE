@@ -19,7 +19,6 @@ async function crawlDetailPage(page, product) {
             .map(img => img.src)
             .filter(src => src && src.startsWith("http"));
 
-        // Lấy màu (color) — selector phù hợp với krik.vn
         const colors = Array.from(document.querySelectorAll('#variant-swatch-0 .swatch-element label'))
             .map(label => ({
                 color:
@@ -30,9 +29,8 @@ async function crawlDetailPage(page, product) {
                     '',
                 colorImage: label.getAttribute('data-src') || label.querySelector('img')?.src || null,
             }))
-            .filter(c => c.color); // chỉ lấy color có tên
+            .filter(c => c.color);
 
-        // Lấy kích thước (size)
         const sizes = Array.from(document.querySelectorAll('#variant-swatch-1 .swatch-element label'))
             .map(label => {
                 const span = label.querySelector('span');
@@ -47,11 +45,9 @@ async function crawlDetailPage(page, product) {
             })
             .filter(s => s.size);
 
-        // Giá chung (nếu không có data-price trên size) — parse số
         const priceText = document.querySelector('.tp_product_detail_price')?.innerText.trim() || '';
         const priceNumber = priceText ? parseFloat(priceText.replace(/[^\d.-]/g, '')) || null : null;
 
-        // Kết hợp màu + size (nếu không có sizes thì chỉ lấy màu)
         const variants = [];
         if (colors.length > 0 && sizes.length > 0) {
             colors.forEach(c => {
@@ -60,7 +56,7 @@ async function crawlDetailPage(page, product) {
                         name: `${c.color}${s.size ? ' - ' + s.size : ''}`.trim(),
                         color: c.color,
                         size: s.size,
-                        image: c.colorImage,               // lấy ảnh từ màu
+                        image: c.colorImage,
                         price: s.priceAttr ? parseFloat(String(s.priceAttr).replace(/[^\d]/g, '')) || priceNumber : priceNumber,
                         selid: s.selid || null,
                     });
@@ -104,9 +100,8 @@ async function crawlDetailPage(page, product) {
 
     return { ...product, ...detail };
 }
-/**
- * Hàm export chính
- */
+
+
 export async function crawlDetailAll() {
     console.log(" Bắt đầu crawl chi tiết sản phẩm...");
 
@@ -136,7 +131,6 @@ export async function crawlDetailAll() {
             });
             if (full.variants?.length > 0) {
                 for (const v of full.variants) {
-                    // bỏ qua nếu không có color và không có size
                     if (!v.color && !v.size) continue;
 
                     const variantName = v.name || `${v.color || ''}${v.size ? ' - ' + v.size : ''}`.trim();

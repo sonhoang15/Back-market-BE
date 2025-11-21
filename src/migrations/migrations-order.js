@@ -21,12 +21,10 @@ module.exports = {
         onDelete: "SET NULL",
       },
 
-      // Thông tin người đặt
       email: { type: Sequelize.STRING, allowNull: true },
       username: { type: Sequelize.STRING, allowNull: true },
       phone: { type: Sequelize.STRING, allowNull: true },
 
-      // Địa chỉ giao hàng
       address: { type: Sequelize.STRING, allowNull: true },
       province: { type: Sequelize.STRING, allowNull: true },
       district: { type: Sequelize.STRING, allowNull: true },

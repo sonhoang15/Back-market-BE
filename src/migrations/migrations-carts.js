@@ -44,8 +44,6 @@ export async function up(queryInterface, Sequelize) {
         },
     });
 
-    // Nếu bạn có bảng Users → tạo FK luôn
-    // Nếu chưa có thì có thể bỏ đoạn này
     await queryInterface.addConstraint('Carts', {
         fields: ['user_id'],
         type: 'foreign key',
@@ -60,12 +58,10 @@ export async function up(queryInterface, Sequelize) {
 }
 
 export async function down(queryInterface, Sequelize) {
-    // Xóa FK
+
     await queryInterface.removeConstraint('Carts', 'fk_carts_user_id');
 
-    // Xóa bảng
     await queryInterface.dropTable('Carts');
 
-    // Xóa ENUM (nếu MySQL)
     await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_Carts_status";').catch(() => { });
 }

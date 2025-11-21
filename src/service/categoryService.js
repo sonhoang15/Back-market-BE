@@ -32,7 +32,6 @@ const createNewCategory = async (data) => {
             };
         }
 
-        // Check duplicate
         let exist = await db.Category.findOne({ where: { name: data.name } });
         if (exist) {
             return {

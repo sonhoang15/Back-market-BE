@@ -27,7 +27,6 @@ const createNewGroup = async (data) => {
             };
         }
 
-        // kiểm tra group name đã tồn tại chưa
         let existing = await db.Group.findOne({
             where: { name: data.name }
         });
@@ -40,7 +39,6 @@ const createNewGroup = async (data) => {
             };
         }
 
-        // tạo group mới
         let newGroup = await db.Group.create({
             name: data.name,
             description: data.description || ""

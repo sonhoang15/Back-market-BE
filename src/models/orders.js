@@ -17,12 +17,10 @@ export default (sequelize, DataTypes) => {
             id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
             user_id: DataTypes.INTEGER,
 
-            // Thông tin khách đặt hàng
             email: DataTypes.STRING,
             username: DataTypes.STRING,
             phone: DataTypes.STRING,
 
-            // Địa chỉ giao hàng
             address: DataTypes.STRING,
             province: DataTypes.STRING,
             district: DataTypes.STRING,

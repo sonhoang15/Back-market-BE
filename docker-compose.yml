@@ -21,7 +21,6 @@ services:
       retries: 10
       start_period: 40s
 
-  # ➕ THÊM DỊCH VỤ OPENSEARCH
   opensearch:
     image: opensearchproject/opensearch:2.11.0
     container_name: opensearch
@@ -39,7 +38,6 @@ services:
     volumes:
       - opensearch_data:/usr/share/opensearch/data
 
-  # ➕ THÊM OPENSEARCH DASHBOARDS
   opensearch_dashboards:
     image: opensearchproject/opensearch-dashboards:2.11.0
     container_name: opensearch_dashboards

@@ -2,7 +2,6 @@ import db from "../models/index.js";
 const { Cart, CartItem, Product, ProductVariant, Order, OrderItem } = db;
 
 class CartService {
-    // Lấy giỏ hàng hiện tại của user
     static async getCart(userId) {
         let cart = await Cart.findOne({
             where: {
@@ -18,7 +17,7 @@ class CartService {
                         {
                             model: ProductVariant,
                             as: "variant",
-                            attributes: ["id", "name", "size", "image"] // <- thêm size và image
+                            attributes: ["id", "name", "size", "image"]
                         },
                     ],
                 },
@@ -36,7 +35,6 @@ class CartService {
         return cart;
     }
 
-    // Thêm sản phẩm vào giỏ hàng
     static async addToCart(userId, productId, variantId, quantity) {
         let cart = await Cart.findOne({ where: { user_id: userId, status: "active" } });
         if (!cart) cart = await Cart.create({ user_id: userId });
@@ -68,7 +66,6 @@ class CartService {
         return await CartService.getCart(userId);
     }
 
-    // Cập nhật tổng tiền và tổng items của giỏ
     static async updateCartTotal(cartId) {
         const cart = await Cart.findByPk(cartId);
         const cartItems = await CartItem.findAll({ where: { cart_id: cartId } });
@@ -80,7 +77,6 @@ class CartService {
         return cart;
     }
 
-    // Cập nhật số lượng item
     static async updateCartItem(itemId, quantity) {
         const item = await CartItem.findByPk(itemId);
         if (!item) throw new Error("Cart item not found");
@@ -93,7 +89,6 @@ class CartService {
         return { cart, item };
     }
 
-    // Xóa item khỏi giỏ
     static async removeCartItem(itemId) {
         const item = await CartItem.findByPk(itemId);
         if (!item) throw new Error("Cart item not found");
@@ -105,7 +100,6 @@ class CartService {
         return cart;
     }
 
-    // Checkout
     static async checkoutCart(userId) {
         const cart = await Cart.findOne({
             where: { user_id: userId, status: "active" },
@@ -139,12 +133,11 @@ class CartService {
     }
     static async clearCart(cartId) {
         try {
-            // Xóa toàn bộ CartItem thuộc giỏ hàng này
+
             await CartItem.destroy({
                 where: { cart_id: cartId }
             });
 
-            // Cập nhật lại tổng tiền giỏ hàng về 0
             const cart = await Cart.findByPk(cartId);
             if (cart) {
                 cart.total_price = 0;

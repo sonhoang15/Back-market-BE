@@ -15,7 +15,6 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.TEXT,
       allowNull: true,
     },
-    // Phân biệt nguồn dữ liệu (crawl, thêm tay, import)
     source_type: {
       type: Sequelize.ENUM('manual', 'crawler', 'import'),
       allowNull: false,
@@ -35,6 +34,5 @@ export async function up(queryInterface, Sequelize) {
 }
 
 export async function down(queryInterface, Sequelize) {
-  // Trước khi drop bảng cần xoá ENUM nếu DB yêu cầu (MySQL)
   await queryInterface.dropTable('Categories');
 }

@@ -21,14 +21,14 @@ const getAllRoles = async () => {
 
 const getAllRoleWithPagination = async (page, limit) => {
     try {
-        const offset = (page - 1) * limit; // ← THIẾU BIẾN offset
+        const offset = (page - 1) * limit;
         const { count, rows } = await db.Role.findAndCountAll({
             offset: offset,
             limit: limit,
             order: [['id', 'DESC']]
         })
 
-        const totalPage = Math.ceil(count / limit); // ← THIẾU TÍNH TOÁN totalPage
+        const totalPage = Math.ceil(count / limit);
 
         let data = {
             totalRows: count,

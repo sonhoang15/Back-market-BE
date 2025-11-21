@@ -24,9 +24,7 @@ const CATEGORY_URLS = [
     },
 ];
 
-/**
- * Crawl danh sách sản phẩm trong 1 danh mục
- */
+
 async function crawlCategory(page, url) {
     console.log(` Đang crawl danh mục: ${url}`);
     await page.goto(url, { waitUntil: "domcontentloaded", timeout: 0 });
@@ -45,9 +43,7 @@ async function crawlCategory(page, url) {
     return products;
 }
 
-/**
- * Crawl chi tiết sản phẩm (mô tả, hình ảnh, biến thể)
- */
+
 async function crawlProductDetail(page, url) {
     try {
         await page.goto(url, { waitUntil: "domcontentloaded", timeout: 0 });
@@ -71,9 +67,7 @@ async function crawlProductDetail(page, url) {
     }
 }
 
-/**
- * Hàm export chính
- */
+
 export async function crawlList() {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();

@@ -56,7 +56,7 @@ const checkoutCart = async (req, res) => {
 
 const clearCartController = async (req, res) => {
     try {
-        const { cartId } = req.params;   // ✔️ đúng tên
+        const { cartId } = req.params;
 
         const data = await CartService.clearCart(Number(cartId));
 

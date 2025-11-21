@@ -1,7 +1,6 @@
 import bcrypt from 'bcryptjs';
 import db from '../models/index.js';
 
-// create the connection, specify bluebird as Promise
 
 const salt = bcrypt.genSaltSync(10);
 

@@ -13,10 +13,8 @@ const sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.p
 const models = {};
 
 try {
-  // Kết nối database
   await sequelize.authenticate();
 
-  // Khởi tạo tất cả models
   const ProductModule = await import("./products.js");
   models.Product = ProductModule.default(sequelize, Sequelize.DataTypes);
 
@@ -55,14 +53,12 @@ try {
   process.exit(1);
 }
 
-// Setup associations
 Object.keys(models).forEach(modelName => {
   if (models[modelName].associate) {
     models[modelName].associate(models);
   }
 });
 
-// Sync database
 try {
   await sequelize.sync({
     force: false,

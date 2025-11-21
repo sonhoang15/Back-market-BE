@@ -1,4 +1,3 @@
-// service/productService.js
 import db from "../models/index.js";
 const { Product, ProductVariant, Category, Order, OrderItem } = db;
 
@@ -43,8 +42,8 @@ export const getProductsByCategoryAdvanced = async (category_id, query) => {
             attributes: [
                 "id",
                 "name",
-                "thumbnail",       // ảnh chính
-                "description",     // mô tả
+                "thumbnail",
+                "description",
                 "price_min",
                 "price_max",
                 "status"
@@ -165,7 +164,7 @@ export const saveOrderService = async (data) => {
         };
 
     } catch (error) {
-        console.error("🔥 Lỗi saveOrderService:", error);
+        console.error(" Lỗi saveOrderService:", error);
         return {
             EC: 1,
             EM: "Lỗi server khi tạo đơn hàng",
@@ -312,7 +311,7 @@ export const getNewestProducts = async (limit = 8) => {
                 {
                     model: ProductVariant,
                     as: "variants",
-                    required: false, // <--- LEFT JOIN để không lọc mất sản phẩm
+                    required: false,
                 },
             ],
         });

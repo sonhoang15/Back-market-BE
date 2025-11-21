@@ -4,7 +4,6 @@ import { Model } from 'sequelize';
 export default (sequelize, DataTypes) => {
     class Category extends Model {
         static associate(models) {
-            // Một category có nhiều product
             Category.hasMany(models.Product, {
                 foreignKey: 'category_id',
                 as: 'products',

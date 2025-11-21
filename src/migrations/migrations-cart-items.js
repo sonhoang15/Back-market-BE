@@ -52,8 +52,6 @@ export async function up(queryInterface, Sequelize) {
             defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
         },
     });
-
-    // FK => Carts
     await queryInterface.addConstraint('CartItems', {
         fields: ['cart_id'],
         type: 'foreign key',
@@ -66,7 +64,7 @@ export async function up(queryInterface, Sequelize) {
         onUpdate: 'CASCADE',
     });
 
-    // FK => Products
+
     await queryInterface.addConstraint('CartItems', {
         fields: ['product_id'],
         type: 'foreign key',
@@ -79,7 +77,6 @@ export async function up(queryInterface, Sequelize) {
         onUpdate: 'CASCADE',
     });
 
-    // FK => ProductVariants (nếu shop có biến thể)
     await queryInterface.addConstraint('CartItems', {
         fields: ['variant_id'],
         type: 'foreign key',

@@ -1,4 +1,3 @@
-// src/config/opensearchIndex.js
 import { osClient } from "./opensearchClient.js";
 
 const INDEX = "products";
@@ -73,7 +72,6 @@ export const createProductIndex = async () => {
                     created_at: { type: "date" },
                     status: { type: "keyword" },
 
-                    /* 🔥 FIX suggest -- phải là completion */
                     suggest: { type: "completion" }
                 }
             }

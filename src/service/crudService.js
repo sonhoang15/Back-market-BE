@@ -93,8 +93,8 @@ const handleUserLogin = async (data) => {
                 }
             });
         } catch (err) {
-            console.error("❌ DB findOne error:", err.message);
-            throw err; // Cho rơi vào catch chính
+            console.error(" DB findOne error:", err.message);
+            throw err;
         }
         if (user) {
             let isPasswordValid = checkPassword(data.password, user.password);

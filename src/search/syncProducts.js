@@ -13,7 +13,7 @@ export async function syncProductsToOpenSearch() {
     });
 
     if (!products.length) {
-        console.log("⚠️ Không có sản phẩm nào trong MySQL");
+        console.log(" Không có sản phẩm nào trong MySQL");
         return;
     }
 
@@ -31,7 +31,6 @@ export async function syncProductsToOpenSearch() {
             stock: v.stock
         }));
 
-        // ======= 🔥 Completion Suggest (CHUẨN) =======
         const suggest = {
             input: [
                 p.name,
@@ -67,9 +66,9 @@ export async function syncProductsToOpenSearch() {
     const response = await osClient.bulk({ refresh: true, body });
 
     if (response.body.errors) {
-        console.error("❌ Bulk error:", response.body.items);
+        console.error(" Bulk error:", response.body.items);
         return;
     }
 
-    console.log(`✅ Synced ${products.length} products → OpenSearch`);
+    console.log(` Synced ${products.length} products → OpenSearch`);
 }

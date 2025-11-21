@@ -4,7 +4,6 @@ import { Model } from 'sequelize';
 export default (sequelize, DataTypes) => {
     class ProductVariant extends Model {
         static associate(models) {
-            // Mỗi biến thể thuộc về một sản phẩm
             ProductVariant.belongsTo(models.Product, {
                 foreignKey: 'product_id',
                 as: 'product',

@@ -2,7 +2,7 @@ import * as productService from "../service/productService.js";
 
 const createProduct = async (req, res) => {
     try {
-        // Truyền cả body + files sang service
+
         const result = await productService.createProductService(req.body, req.files);
         return res.status(200).json(result);
     } catch (error) {
@@ -11,7 +11,6 @@ const createProduct = async (req, res) => {
     }
 };
 
-// Giữ nguyên các hàm khác
 const getAllProducts = async (req, res) => {
     try {
         const result = await productService.getAllProducts();
@@ -60,7 +59,6 @@ const getProductById = async (req, res) => {
     try {
         const id = req.params.id;
 
-        // Validate ID
         if (!id || isNaN(parseInt(id))) {
             return res.status(400).json({
                 EC: 1,
@@ -71,7 +69,6 @@ const getProductById = async (req, res) => {
 
         const product = await productService.getProductById(id);
 
-        // Check if product exists
         if (!product) {
             return res.status(404).json({
                 EC: 1,

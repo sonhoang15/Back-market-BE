@@ -2,9 +2,6 @@ const userServiceModule = await import("../service/userService.js");
 const userService = userServiceModule.default;
 
 
-// Create the connection to database
-
-
 const handleHome = (req, res) => {
     return res.render("home.ejs")
 }

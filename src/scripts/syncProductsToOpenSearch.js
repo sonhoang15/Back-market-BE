@@ -1,4 +1,3 @@
-// src/scripts/syncProductsToOpenSearch.js
 import db from "../models/index.js";
 import { osClient } from "../config/opensearchClient.js";
 import { PRODUCT_INDEX } from "../config/opensearchIndex.js";
@@ -12,7 +11,6 @@ const chunk = (arr, size = 500) => {
 export const syncProducts = async () => {
     const { Product, ProductVariant, Category } = db;
 
-    // fetch products with variants & category
     const products = await Product.findAll({
         include: [
             { model: ProductVariant, as: "variants" },

@@ -1,7 +1,5 @@
-// src/controller/categoryController.js
 import categoryService from "../service/categoryService.js";
 
-// GET /api/v1/category/read
 const read = async (req, res) => {
     try {
         let data = await categoryService.getCategory();
@@ -20,7 +18,6 @@ const read = async (req, res) => {
     }
 };
 
-// POST /api/v1/category/create
 const create = async (req, res) => {
     try {
         let data = await categoryService.createNewCategory(req.body);
@@ -39,7 +36,6 @@ const create = async (req, res) => {
     }
 };
 
-// PUT /api/v1/category/update
 const update = async (req, res) => {
     try {
         const id = req.params.id;
@@ -59,7 +55,7 @@ const update = async (req, res) => {
 
 const deleteCategories = async (req, res) => {
     try {
-        const id = req.params.id; // lấy id từ URL
+        const id = req.params.id;
         const result = await categoryService.deleteCategory(id);
 
         return res.status(200).json(result);

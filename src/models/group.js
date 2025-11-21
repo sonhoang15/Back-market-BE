@@ -2,13 +2,8 @@
 import { Model } from 'sequelize';
 export default (sequelize, DataTypes) => {
     class Group extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
+
         static associate(models) {
-            // define association here
             Group.hasMany(models.User, { foreignKey: 'group_id' });
             Group.belongsToMany(models.Role, {
                 through: models.GroupRole,
@@ -23,9 +18,9 @@ export default (sequelize, DataTypes) => {
     }, {
         sequelize,
         modelName: 'Group',
-        tableName: 'Groups', // SỬA THÀNH 'Groups'
-        underscored: true, // THÊM DÒNG NÀY
-        timestamps: true // THÊM DÒNG NÀY
+        tableName: 'Groups',
+        underscored: true,
+        timestamps: true
     });
     return Group;
 };

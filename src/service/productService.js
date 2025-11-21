@@ -4,15 +4,13 @@ import { v2 as cloudinary } from "cloudinary";
 
 
 const { Product, ProductVariant, Category } = db;
-// ✅ Cấu hình Cloudinary (hoặc bạn có thể import từ file config riêng)
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
-    timeout: 60000 // 60 giây (mặc định là 30s)
+    timeout: 60000
 });
 
-// 🔹 Hàm upload với retry
 const uploadWithRetry = async (image, folder, retries = 3, delay = 2000) => {
     let lastError;
 
@@ -21,7 +19,7 @@ const uploadWithRetry = async (image, folder, retries = 3, delay = 2000) => {
             const result = await cloudinary.uploader.upload(image, {
                 folder,
                 timeout: 60000,
-                quality: 'auto:good', // Giảm chất lượng để upload nhanh hơn
+                quality: 'auto:good',
                 fetch_format: 'auto'
             });
             return result;
@@ -56,7 +54,6 @@ export const createProductService = async (data) => {
             };
         }
 
-        // 🔹 Upload thumbnail với retry
         if (data.thumbnail) {
             try {
                 const uploadRes = await uploadWithRetry(data.thumbnail, "products");
@@ -86,12 +83,11 @@ export const createProductService = async (data) => {
             price_max: null,
         });
 
-        // 🔹 Xử lý variants với upload song song và retry
+
         if (data.variants && data.variants.length > 0) {
             const variantPayload = [];
             const uploadPromises = [];
 
-            // Tạo tất cả upload promises
             for (const v of data.variants) {
                 if (v.images && v.images.length > 0) {
                     const uploadPromise = uploadWithRetry(v.images[0], "product_variants")
@@ -111,7 +107,6 @@ export const createProductService = async (data) => {
                         })
                         .catch(error => {
                             console.error(`Lỗi upload ảnh variant:`, error);
-                            // Vẫn tạo variant nhưng không có ảnh
                             variantPayload.push({
                                 product_id: product.id,
                                 name: `${v.color || ""}${v.size ? " - " + v.size : ""}`.trim(),
@@ -128,7 +123,6 @@ export const createProductService = async (data) => {
 
                     uploadPromises.push(uploadPromise);
                 } else {
-                    // Variant không có ảnh
                     variantPayload.push({
                         product_id: product.id,
                         name: `${v.color || ""}${v.size ? " - " + v.size : ""}`.trim(),
@@ -143,8 +137,6 @@ export const createProductService = async (data) => {
                     });
                 }
             }
-
-            // 🔹 Chờ tất cả upload hoàn thành
             await Promise.all(uploadPromises);
 
             try {
@@ -196,7 +188,7 @@ export const createProductService = async (data) => {
     }
 };
 
-// Lấy tất cả sản phẩm kèm biến thể
+
 export const getAllProducts = async () => {
     try {
         const products = await Product.findAll({
@@ -207,13 +199,11 @@ export const getAllProducts = async () => {
             order: [["id", "DESC"]],
         });
 
-        // ✅ Thêm tổng stock, nhưng KHÔNG làm mất dữ liệu cũ
         const formatted = products.map((product) => {
             const totalStock = product.variants?.reduce(
                 (acc, variant) => acc + (variant.stock || 0),
                 0
             );
-            // Giữ nguyên tất cả dữ liệu gốc (bao gồm ảnh, nguồn, biến thể, danh mục, v.v.)
             return {
                 ...product.toJSON(),
                 totalStock: totalStock || 0,
@@ -227,15 +217,12 @@ export const getAllProducts = async () => {
     }
 };
 
-
-// Cập nhật sản phẩm
 export const updateProduct = async (id, data) => {
     const product = await Product.findByPk(id);
     if (!product) throw new Error("Product not found");
 
     let thumbnailUrl = product.thumbnail;
 
-    // ✅ Nếu có base64 mới → upload Cloudinary
     if (data.thumbnail && data.thumbnail.startsWith("data:image")) {
         const uploadRes = await cloudinary.uploader.upload(data.thumbnail, {
             folder: "products",
@@ -260,7 +247,6 @@ export const updateProduct = async (id, data) => {
     return product;
 };
 
-// Xóa sản phẩm
 export const deleteProduct = async (id) => {
     const product = await Product.findByPk(id);
     if (!product) throw new Error("Product not found");
@@ -283,7 +269,6 @@ export const getProductById = async (id) => {
             throw new Error('Không tìm thấy sản phẩm');
         }
 
-        // Format data according to frontend needs
         return {
             id: product.id,
             name: product.name,

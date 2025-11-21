@@ -1,7 +1,6 @@
 'use strict';
 
 export async function up(queryInterface, Sequelize) {
-  // 🧱 Tạo bảng Products
   await queryInterface.createTable('Products', {
     id: {
       type: Sequelize.INTEGER,
@@ -24,7 +23,7 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.INTEGER,
       allowNull: true,
       references: {
-        model: 'Categories', // ⚠️ phải đúng tên bảng trong migration categories
+        model: 'Categories',
         key: 'id',
       },
       onUpdate: 'CASCADE',

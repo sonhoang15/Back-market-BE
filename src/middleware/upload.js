@@ -1,6 +1,6 @@
 import multer from "multer";
 
-const storage = multer.memoryStorage(); // hoặc diskStorage nếu muốn lưu file
+const storage = multer.memoryStorage();
 
 const upload = multer({ storage });
 

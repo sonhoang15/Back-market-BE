@@ -17,7 +17,7 @@ const getProductsByCategoryAdvanced = async (req, res) => {
 
 const getProfile = async (req, res) => {
     try {
-        const userId = req.user.user_id; // lấy từ JWT
+        const userId = req.user.user_id;
         let result = await clientService.getProfileService(userId);
         return res.status(200).json(result);
     } catch (e) {
@@ -42,9 +42,8 @@ const updateProfile = async (req, res) => {
 
 const saveOrder = async (req, res) => {
     try {
-        const userId = req.user?.user_id || null;  // ⭐ lấy user_id từ JWT
+        const userId = req.user?.user_id || null;
 
-        // Gộp user_id vào payload
         const payload = {
             ...req.body,
             user_id: userId

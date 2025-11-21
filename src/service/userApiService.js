@@ -12,12 +12,12 @@ const getAllUsers = async () => {
             include: [
                 {
                     model: db.Group,
-                    attributes: ["name", "description"] // Include role name
+                    attributes: ["name", "description"]
                 },
 
 
             ],
-            raw: true, // Use raw: false to get instances with methods
+            raw: true,
             nest: true
         });
         if (users) {
@@ -55,7 +55,7 @@ const getAllUsersWithPagination = async (page, limit) => {
             include: [
                 {
                     model: db.Group,
-                    attributes: ["name", "description", "id"] // Include role name
+                    attributes: ["name", "description", "id"]
                 },
             ],
             order: [['id', 'DESC']]

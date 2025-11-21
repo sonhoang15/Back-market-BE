@@ -17,7 +17,6 @@ export async function up(queryInterface, Sequelize) {
       type: Sequelize.STRING
     },
 
-    // 🆕 Thêm các trường thông tin cá nhân
     full_name: {
       type: Sequelize.STRING
     },

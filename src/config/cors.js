@@ -13,9 +13,8 @@ const configcors = (app) => {
         res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
         res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-        // ✅ Xử lý preflight request
         if (req.method === 'OPTIONS') {
-            return res.sendStatus(204); // No Content
+            return res.sendStatus(204);
         }
 
         next();
