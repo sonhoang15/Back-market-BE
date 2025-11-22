@@ -40,6 +40,9 @@ const initApiRoutes = (app) => {
     router.post("/register", apiController.handleRegister);
     router.post("/login", apiController.handleLogin);
     router.post("/logout", apiController.handleLogout);
+    router.get("/product/by-category-advanced/:category_id", clientController.getProductsByCategoryAdvanced);
+    router.get("/product/best-seller", clientController.bestSeller);
+    router.get("/product/newest", clientController.newestProducts);
 
     router.all('*', checkUserJWT, checkUserPermission);
 
