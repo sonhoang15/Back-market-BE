@@ -29,8 +29,8 @@ const startServer = async () => {
         app.use(bodyParser.urlencoded({ extended: true }));
         app.use(cookieParser());
 
-        initApiRoutes(app);
         initWebRoutes(app);
+        initApiRoutes(app);
 
         app.use((req, res) => {
             return res.send("404 not found");
