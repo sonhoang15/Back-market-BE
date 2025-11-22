@@ -45,7 +45,7 @@ const initApiRoutes = (app) => {
     router.get("/product/search", clientController.searchProductsController);
     router.post("/order/email", emailController.sendOrderEmail);
 
-    // Xóa dòng app.all('*', checkUserJWT, checkUserPermission);
+    router.all('*', checkUserJWT, checkUserPermission);
 
     router.get("/account", userController.getUserAccount)
     router.get("/user/read", userController.read);
