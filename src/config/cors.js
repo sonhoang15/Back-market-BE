@@ -6,8 +6,8 @@ const configcors = (app) => {
     const whitelist = [
         'http://localhost:3000',
         'http://localhost:3001',
-        'https://back-market-fe-a88q.vercel.app',
-        'https://back-market-fe-a88q-lzsd3e2xi-hoang-sns-projects.vercel.app',
+        'https://back-market-fe.vercel.app',
+        'https://back-market-fe-hoang-sns-projects.vercel.app',
         process.env.REACT_URL,
     ].filter(Boolean);
 
