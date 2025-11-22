@@ -42,7 +42,8 @@ const handleLogin = async (req, res) => {
                 httpOnly: true,
                 maxAge: 24 * 60 * 60 * 1000,
                 sameSite: 'None',
-                secure: true
+                secure: true,
+                path: '/'
             })
         }
         return res.status(200).json({
@@ -64,7 +65,8 @@ const handleLogout = (req, res) => {
         res.clearCookie("jwt", {
             httpOnly: true,
             sameSite: 'None',
-            secure: true
+            secure: true,
+            path: '/'
         })
         return res.status(200).json({
             EM: "Delete oke",
