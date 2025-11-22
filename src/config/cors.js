@@ -3,7 +3,9 @@ import 'dotenv/config';
 const configcors = (app) => {
     const allowedOrigins = [
         process.env.REACT_URL || 'http://localhost:3000',
-        'https://back-market-be.onrender.com'   // thêm domain FE vào đây
+        'https://back-market-be.onrender.com',
+        'https://back-market-fe-a88q-git-main-hoang-sns-projects.vercel.app',
+        'https://back-market-fe-a88q-lzsd3e2xi-hoang-sns-projects.vercel.app',   // thêm domain FE vào đây
     ];
 
     app.use((req, res, next) => {
