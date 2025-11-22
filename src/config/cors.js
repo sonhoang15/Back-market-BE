@@ -1,4 +1,6 @@
-import 'dotenv/config';
+import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const configcors = (app) => {
     const whitelist = [
@@ -6,31 +8,22 @@ const configcors = (app) => {
         'http://localhost:3001',
         'https://back-market-fe-a88q.vercel.app',
         'https://back-market-fe-a88q-lzsd3e2xi-hoang-sns-projects.vercel.app',
-    ];
+        process.env.REACT_URL,
+    ].filter(Boolean);
 
     const corsOptions = {
-        allowedOrigins: whitelist,
-        methods: ['GET', 'POST', 'PUT', 'DELETE'],
-        credentials: true
+        origin: function (origin, callback) {
+            if (whitelist.indexOf(origin) !== -1 || !origin) {
+                callback(null, true);
+            } else {
+                callback(new Error(`Origin '${origin}' not allowed by CORS`));
+            }
+        },
+        credentials: true,
+        methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     };
 
-    app.use((req, res, next) => {
-        const origin = req.headers.origin;
-
-        if (allowedOrigins.includes(origin)) {
-            res.setHeader('Access-Control-Allow-Origin', origin);
-            res.setHeader('Access-Control-Allow-Credentials', 'true');
-        }
-
-        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-        res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-
-        if (req.method === 'OPTIONS') {
-            return res.sendStatus(200);  // đổi từ 204 -> 200 để Render không block
-        }
-
-        next();
-    });
+    app.use(cors(corsOptions));
 };
 
 export default configcors;
