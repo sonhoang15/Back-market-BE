@@ -1,12 +1,18 @@
 import 'dotenv/config';
 
 const configcors = (app) => {
-    const allowedOrigins = [
-        process.env.REACT_URL || 'http://localhost:3000',
-        'https://back-market-be.onrender.com',
-        'https://back-market-fe-a88q-git-main-hoang-sns-projects.vercel.app',
-        'https://back-market-fe-a88q-lzsd3e2xi-hoang-sns-projects.vercel.app',   // thêm domain FE vào đây
+    const whitelist = [
+        'http://localhost:3000',
+        'http://localhost:3001',
+        'https://back-market-fe-a88q.vercel.app',
+        'https://back-market-fe-a88q-lzsd3e2xi-hoang-sns-projects.vercel.app',
     ];
+
+    const corsOptions = {
+        allowedOrigins: whitelist,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        credentials: true
+    };
 
     app.use((req, res, next) => {
         const origin = req.headers.origin;
