@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 
-const nonSecurePaths = ['/api/v1/home', '/api/v1/login', '/api/v1/register', '/api/v1/logout', '/api/v1/auth', '/api/v1/product/by-category-advanced/:category_id'];
+const nonSecurePaths = ['/api/v1/home', '/api/v1/login', '/api/v1/register', '/api/v1/logout', '/api/v1/auth', '/api/v1/product/by-category-advanced', '/api/v1/product/best-seller', '/api/v1/product/newest'];
 
 const createJWT = (payload) => {
     let key = process.env.JWT_KEY
@@ -40,7 +40,7 @@ const normalizeUrl = (url) => {
 };
 
 const checkUserJWT = (req, res, next) => {
-    if (nonSecurePaths.includes(req.path)) {
+    if (nonSecurePaths.some(path => req.path.startsWith(path))) {
         return next();
     }
 
@@ -75,7 +75,7 @@ const checkUserJWT = (req, res, next) => {
 
 
 const checkUserPermission = (req, res, next) => {
-    if (nonSecurePaths.includes(req.path) || req.path === '/api/v1/account') return next();
+    if (nonSecurePaths.some(path => req.path.startsWith(path)) || req.path === '/api/v1/account') return next();
     if (req.user) {
         let email = req.user.email
         let roles = req.user.groupWithRoles.Roles
