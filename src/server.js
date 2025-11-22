@@ -29,7 +29,6 @@ const startServer = async () => {
         app.use(bodyParser.urlencoded({ extended: true }));
         app.use(cookieParser());
 
-        // Đảo ngược thứ tự của hai dòng này
         initApiRoutes(app);
         initWebRoutes(app);
 
