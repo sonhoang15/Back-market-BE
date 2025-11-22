@@ -40,7 +40,9 @@ const handleLogin = async (req, res) => {
         if (data && data.DT && data.DT.access_token) {
             res.cookie("jwt", data.DT.access_token, {
                 httpOnly: true,
-                maxAge: 24 * 60 * 60 * 1000
+                maxAge: 24 * 60 * 60 * 1000,
+                SameSite: 'None',
+                secure: true
             })
         }
         return res.status(200).json({
