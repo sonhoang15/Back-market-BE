@@ -20,7 +20,10 @@ export const getProductsByCategoryAdvanced = async (category_id, query) => {
         else if (sort === "newest") order = [["created_at", "DESC"]];
 
         const products = await Product.findAll({
-            where: { category_id },
+            where: {
+                category_id,
+                // Tôi đã xoá dòng lọc status ở đây
+            },
             include: [
                 {
                     model: ProductVariant,

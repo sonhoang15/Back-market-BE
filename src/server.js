@@ -28,8 +28,10 @@ const startServer = async () => {
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
         app.use(cookieParser());
-        initWebRoutes(app);
+
+        // Đảo ngược thứ tự của hai dòng này
         initApiRoutes(app);
+        initWebRoutes(app);
 
         app.use((req, res) => {
             return res.send("404 not found");
