@@ -44,7 +44,7 @@ const initApiRoutes = (app) => {
     router.get("/product/best-seller", clientController.bestSeller);
     router.get("/product/newest", clientController.newestProducts);
 
-    router.all('*', checkUserJWT, checkUserPermission);
+    all('*', checkUserJWT, checkUserPermission);
 
     router.get("/account", userController.getUserAccount)
     router.get("/user/read", userController.read);

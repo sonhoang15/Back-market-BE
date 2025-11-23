@@ -8,6 +8,7 @@ const configcors = (app) => {
         'http://localhost:3001',
         'https://back-market-fe.vercel.app',
         'https://back-market-fe-hoang-sns-projects.vercel.app',
+        'https://back-market-p3m5xqe24-hoang-sns-projects.vercel.app',
         process.env.REACT_URL,
     ].filter(Boolean);
 
