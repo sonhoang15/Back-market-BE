@@ -1,5 +1,6 @@
 import puppeteer from "puppeteer";
 import db from "../src/models/index.js";
+
 const { Product, ProductVariant } = db;
 
 async function crawlDetailPage(page, product) {
