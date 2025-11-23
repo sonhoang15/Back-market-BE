@@ -36,4 +36,4 @@ COPY --from=builder /app/.sequelizerc ./.sequelizerc
 COPY --from=builder /app/isrgrootx1.pem ./isrgrootx1.pem
 
 EXPOSE 8080
-CMD ["sh", "-c", "npx sequelize-cli db:migrate && npm run start:prod"]
+CMD [ "sh", "-c", "npx sequelize-cli db:migrate && npm run start:prod" ]
