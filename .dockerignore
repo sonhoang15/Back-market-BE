@@ -4,3 +4,4 @@ mysql-data
 .env
 
 crawl-data
+dist

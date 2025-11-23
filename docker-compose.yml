@@ -57,13 +57,16 @@ services:
       opensearch:
         condition: service_started
     environment:
-      NODE_ENV: development
+      NODE_ENV: production
       DB_HOST: db
       DB_USER: myuser
       DB_PASS: mypass
       DB_NAME: mydb
       DB_PORT: 3306
       OPENSEARCH_NODE: http://opensearch:9200
+      DB_SSL_CA: /app/isrgrootx1.pem
+    ports:
+      - "8080:8080"
 
 volumes:
   mysql_data:
