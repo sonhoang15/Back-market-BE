@@ -1,11 +1,8 @@
 const path = require('path');
 
-// For production, we'll use the compiled files in 'dist'
-const basePath = process.env.NODE_ENV === 'production' ? 'dist' : 'src';
-
 module.exports = {
-    'config': path.resolve(basePath, 'config', 'config.js'),
-    'migrations-path': path.resolve(basePath, 'migrations'),
-    'models-path': path.resolve(basePath, 'models'),
-    'seeders-path': path.resolve(basePath, 'seeders')
+    'config': path.resolve('./src/config', 'config.js'),
+    'migrations-path': path.resolve('./src/migrations', 'migrations'),
+    'models-path': path.resolve('./src/models', 'models'),
+    'seeders-path': path.resolve('./src/seeders', 'seeders')
 }

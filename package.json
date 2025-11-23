@@ -7,19 +7,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --exec npx babel-node src/server.js",
-    "build": "babel src --out-dir dist --copy-files",
-    "start:prod": "node dist/server.js",
     "crawl": "node crawldata/crawl.js"
   },
   "author": "Hoangson",
   "license": "ISC",
   "dependencies": {
+    "@babel/core": "7.15.4",
+    "@babel/node": "7.15.4",
+    "@babel/preset-env": "7.15.4",
     "@opensearch-project/opensearch": "^3.5.1",
     "axios": "^1.12.2",
     "bcryptjs": "2.4.3",
     "bluebird": "3.7.2",
     "body-parser": "1.19.1",
-    "cheerio": "1.1.2",
+    "cheerio": "^1.1.2",
     "cloudinary": "^2.8.0",
     "cookie-parser": "1.4.6",
     "cors": "^2.8.5",
@@ -33,15 +34,9 @@
     "mysql2": "^3.15.1",
     "node-fetch": "^3.3.2",
     "nodemailer": "^7.0.10",
+    "nodemon": "2.0.15",
     "puppeteer": "^24.23.0",
     "sequelize": "6.13.0",
     "sequelize-cli": "6.3.0"
-  },
-  "devDependencies": {
-    "@babel/cli": "7.15.4",
-    "@babel/core": "7.15.4",
-    "@babel/node": "7.15.4",
-    "@babel/preset-env": "7.15.4",
-    "nodemon": "2.0.15"
   }
 }
