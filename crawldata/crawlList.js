@@ -31,7 +31,7 @@ async function crawlCategory(page, url) {
     await page.waitForSelector(".product-resize.pro-loop", { timeout: 5000 }).catch(() => null);
 
     const products = await page.$$eval(".product-resize.pro-loop", (items) =>
-        items.map((el) => ({
+        items.slice(0, 10).map((el) => ({
             name: el.querySelector(".tp_product_name")?.innerText.trim() || "",
             price: el.querySelector(".tp_product_price")?.innerText.trim() || "",
             thumbnail: el.querySelector("img.img-loop")?.src || "",
