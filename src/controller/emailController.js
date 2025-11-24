@@ -9,6 +9,7 @@ const sendOrderEmail = async (req, res) => {
             DT: result
         });
     } catch (error) {
+        console.error("EMAIL ERROR:", error);
         return res.status(500).json({
             EC: -1,
             EM: "Gửi email thất bại!",
