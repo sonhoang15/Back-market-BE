@@ -44,6 +44,7 @@ const initApiRoutes = (app) => {
     router.get("/product/best-seller", clientController.bestSeller);
     router.get("/product/newest", clientController.newestProducts);
     router.post("/order/email", emailController.sendOrderEmail);
+    router.get("/product/search", clientController.searchProductsController);
 
     app.all('*', checkUserJWT, checkUserPermission);
 
@@ -100,8 +101,6 @@ const initApiRoutes = (app) => {
     router.get("/product/best-seller", clientController.bestSeller);
     router.get("/product/newest", clientController.newestProducts);
     router.post("/orders/save", clientController.saveOrder);
-    router.get("/product/search", clientController.searchProductsController);
-
 
     return app.use("/api/v1", router)
 
