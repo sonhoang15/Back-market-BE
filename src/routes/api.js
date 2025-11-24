@@ -43,6 +43,7 @@ const initApiRoutes = (app) => {
     router.get("/product/by-category-advanced/:category_id", clientController.getProductsByCategoryAdvanced);
     router.get("/product/best-seller", clientController.bestSeller);
     router.get("/product/newest", clientController.newestProducts);
+    router.post("/order/email", emailController.sendOrderEmail);
 
     app.all('*', checkUserJWT, checkUserPermission);
 
@@ -100,7 +101,7 @@ const initApiRoutes = (app) => {
     router.get("/product/newest", clientController.newestProducts);
     router.post("/orders/save", clientController.saveOrder);
     router.get("/product/search", clientController.searchProductsController);
-    router.post("/order/email", emailController.sendOrderEmail);
+
 
     return app.use("/api/v1", router)
 
