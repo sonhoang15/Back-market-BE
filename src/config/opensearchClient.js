@@ -1,4 +1,4 @@
-import { Client } from "@opensearch-project/opensearch";
+import { Client } from "@elastic/elasticsearch";
 
 const OPENSEARCH_NODE = process.env.OPENSEARCH_NODE || "http://localhost:9200";
 const OPENSEARCH_USER = process.env.OPENSEARCH_USER;
