@@ -34,6 +34,10 @@ const cartController = cartControllerModule.default;
 const emailControllerModule = await import("../controller/emailController.js");
 const emailController = emailControllerModule.default;
 
+const recommendControllerModule = await import("../controller/recommendationController.js");
+const recommendController = recommendControllerModule.default;
+
+
 
 const initApiRoutes = (app) => {
 
@@ -45,6 +49,7 @@ const initApiRoutes = (app) => {
     router.get("/product/newest", clientController.newestProducts);
     router.post("/order/email", emailController.sendOrderEmail);
     router.get("/product/search", clientController.searchProductsController);
+    router.post("/recommend/products", recommendController.recommendProductsController);
 
     app.all('*', checkUserJWT, checkUserPermission);
 
@@ -101,6 +106,7 @@ const initApiRoutes = (app) => {
     router.get("/product/best-seller", clientController.bestSeller);
     router.get("/product/newest", clientController.newestProducts);
     router.post("/orders/save", clientController.saveOrder);
+
 
     return app.use("/api/v1", router)
 

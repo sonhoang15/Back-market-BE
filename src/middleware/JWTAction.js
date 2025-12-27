@@ -11,7 +11,9 @@ const nonSecurePaths = [
     '/api/v1/product/best-seller',
     '/api/v1/product/newest',
     '/api/v1/order/email',
-    '/api/v1/product/search'
+    '/api/v1/product/search',
+    '/api/v1/product/read',
+    '/api/v1/recommend/products'
 ];
 
 const createJWT = (payload) => {
