@@ -29,6 +29,10 @@ const startServer = async () => {
         app.use(bodyParser.urlencoded({ extended: true }));
         app.use(cookieParser());
 
+        app.get("/", (req, res) => {
+            res.json({ status: "ok" });
+        });
+
         initWebRoutes(app);
         initApiRoutes(app);
 
@@ -36,7 +40,7 @@ const startServer = async () => {
             return res.send("404 not found");
         });
 
-        app.listen(PORT, () => {
+        app.listen(PORT, "0.0.0.0", () => {
             console.log("Backend running on port " + PORT);
         });
     } catch (error) {
