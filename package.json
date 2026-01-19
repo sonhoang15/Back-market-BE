@@ -5,8 +5,9 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon --exec npx babel-node src/server.js",
+    "dev": "nodemon src/server.js",
+    "build": "babel src --out-dir dist",
+    "start": "node dist/server.js"
     "crawl": "node crawldata/crawl.js"
   },
   "author": "Hoangson",
